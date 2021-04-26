@@ -1,0 +1,8 @@
+import '@/assets/theme/index.css'
+import '@/common/styles/reset.less'
+import '@/common/styles/common.less'
+import '@/common/styles/el-reset.less'
+import '@/common/styles/mixin.less'
+import '@/common/styles/adapt.less'
+import '@/common/utils/permission'
+import '@/common/commonData/gobalComponents'

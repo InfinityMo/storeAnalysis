@@ -1,0 +1,86 @@
+.link-open {
+  color: #1890FF;
+  cursor: pointer;
+}
+
+.el-dialog.custom-dialog .dynamic-form {
+  .dynamic-item {
+    position: relative;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #D9D9D9;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    .delete-icon {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      cursor: pointer;
+    }
+
+    .form-item:last-child {
+      .el-form-item {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.add-wrap {
+  margin-bottom: 30px;
+  height: 28px;
+  border: 1px dashed;
+  border: 1px dashed #2BB8BD;
+  cursor: pointer;
+
+  span {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #2BB8BD;
+  }
+}
+
+.details-drawer-wrap {
+  padding: 10px 20px 30px 20px;
+  height: calc(100vh - 82px);
+  overflow-y: scroll;
+
+  .details-item {
+    margin-top: 30px;
+    padding-bottom: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+
+    h4 {
+      padding-bottom: 20px;
+      color: #1A1A1A;
+      font-size: 18px;
+      line-height: 26px;
+    }
+
+    p,
+    li {
+      margin-bottom: 26px;
+
+      label {
+        min-width: 70px;
+      }
+
+      span {
+        width: 100%;
+        word-break: break-all;
+      }
+    }
+  }
+
+  .details-item:first-child {
+    margin-top: 0;
+  }
+
+  .details-item:last-child {
+    border-bottom: 0;
+  }
+}

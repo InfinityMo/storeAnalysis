@@ -1,0 +1,97 @@
+html,
+body {
+  position: relative;
+  // height: 100%;
+}
+
+#app {
+  position: relative;
+  min-height: 100vh;
+  background: #f0f2f5;
+}
+
+
+
+.flex {
+  display: flex;
+}
+
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-justify-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-justify-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex-item-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-between-center {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+// 表格组件样式重置
+.standard-table {
+  .table {
+    width: 100%;
+  }
+}
+
+.page {
+  margin-bottom: 20px;
+}
+
+// 表格组件
+.standard-table.el-table {
+  thead {
+    color: #333;
+
+    th {
+      padding: 10px 0;
+    }
+  }
+
+  th {
+    text-align: left;
+    font-weight: normal;
+    background-color: #fafafa;
+  }
+
+  td {
+    padding: 8px 0;
+
+    div {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .view-title {
+    display: block;
+    color: #1890FF;
+    cursor: pointer;
+  }
+
+  .operate-btn {
+    padding: 0 4px;
+  }
+}
