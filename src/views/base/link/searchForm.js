@@ -1,3 +1,5 @@
-export const tableSearchForm = {
-  RowGuid: '' // 品牌下拉框的id
+export const queryForm = {
+  title: '', // 店铺名称
+  linkName: '', // 商品标题
+  isValid: '-1' // 链接状态
 }

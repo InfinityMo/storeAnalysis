@@ -1,10 +1,11 @@
 <template>
   <div class="details-drawer-wrap">
     <div class="details-item">
-      <h4>店铺信息</h4>
-      <p class="flex"><label>店铺名称：</label><span>{{detailInfo.title}}</span></p>
-      <p class="flex"><label>店铺链接：</label><span class="link-open"
-              @click="openShop(detailInfo.shopLink)">{{detailInfo.shopLink}}</span></p>
+      <h4>链接信息</h4>
+      <p class="flex"><label>商品标题：</label><span>{{detailInfo.linkTitle}}</span></p>
+      <p class="flex"><label>上次标题：</label><span>{{detailInfo.lastTitle}}</span></p>
+      <p class="flex"><label>链接地址：</label><span class="link-open"
+              @click="openShop(detailInfo.linkName)">{{detailInfo.linkName}}</span></p>
     </div>
     <div class="details-item">
       <h4>当前活动信息</h4>
@@ -29,7 +30,7 @@
   </div>
 </template>
 <script>
-import { shopInfo } from '@/common/commonData/testDevData'
+import { linkInfo } from '@/common/commonData/testDevData'
 export default {
   props: {
     addEditId: {
@@ -39,7 +40,7 @@ export default {
   },
   data () {
     return {
-      detailInfo: { ...shopInfo }
+      detailInfo: { ...linkInfo }
     }
   },
   created () {
