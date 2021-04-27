@@ -18,3 +18,15 @@ export const modalFormRules = {
     { required: true, message: '请选择活动等级', trigger: 'change' }
   ]
 }
+
+export const editAitivityForm = {
+  activityId: '', // 活动名称
+  rules: '' // 玩法
+}
+
+export const editAitivityFormRules = {
+
+  activityId: [
+    { required: true, message: '请选择活动时间', trigger: 'change' }
+  ]
+}

@@ -156,3 +156,22 @@ export const activityInfo = {
   end: '2021-03-08 23:59',
   activityMemo: '部分商品满300减30，再送小样，贺卡，礼品包装，预售商品定金30抵40'
 }
+
+export const activityManageTableData = [
+  {
+    activityId: '1',
+    activityName: '3月8号三八妇女节女王节大促活动',
+    rule: '部分商品满300减30，再送小样，贺卡，礼品包装',
+    activityStatus: '1'
+  }, {
+    activityId: '2',
+    activityName: '3月8号三八妇女节女王节大促活动',
+    rule: '部分商品满300减30，再送小样，贺卡，礼品包装',
+    activityStatus: '2'
+  }, {
+    activityId: '3',
+    activityName: '3月8号三八妇女节女王节大促活动',
+    rule: '部分商品满300减30，再送小样，贺卡，礼品包装',
+    activityStatus: '3'
+  }
+]

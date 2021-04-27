@@ -70,6 +70,16 @@
                    ref="actContent"
                    :addEditId="addEditId" />
     </Dialog>
+    <Dialog dialogTitle="管理活动"
+            dialogWidth="930px"
+            :isShowFooter="false"
+            :dialogShow="manageDialogShow"
+            @dialogCancel="manageDialogCancel">
+      <activityManage slot="content"
+                      activityType="1"
+                      v-if="manageDialogShow"
+                      :dataId="addEditId" />
+    </Dialog>
     <Drawer :drawerTitle="drawerTitle"
             drawerWidth="856px"
             :drawerShow="drawerShow"
@@ -88,10 +98,10 @@ import { shopTableData } from '@/common/commonData/testDevData'
 import addEdit from './component/addEdit'
 import addActivity from './component/addActivity'
 import shopDetails from './component/shopDetails'
-
+import activityManage from '../activity/component/activityManage'
 export default {
   mixins: [tableMixin],
-  components: { addEdit, addActivity, shopDetails },
+  components: { addEdit, addActivity, shopDetails, activityManage },
   data () {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
@@ -101,6 +111,7 @@ export default {
       dialogTitle: '', // 弹窗的名称
       dialogShow: false,
       addEditId: '', // 编辑时存在id，新增时id为空
+      manageDialogShow: false,
       actDialogShow: false,
       drawerShow: false,
       drawerTitle: ''
@@ -165,7 +176,11 @@ export default {
       this.actDialogShow = false
     },
     activityManage () {
-
+      this.manageDialogShow = true
+    },
+    manageDialogCancel () {
+      this.manageDialogShow = false
+      // this.getTableData()
     },
     queryHandel () {
       this.queryFrom = {
