@@ -1,3 +1,3 @@
 export const queryForm = {
-  shopName: '' // 店铺名称
+  title: '' // 店铺名称
 }

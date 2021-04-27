@@ -45,12 +45,14 @@ export const columnsData = (h, $this) => [{
 {
   dataKey: 'operate',
   title: '操作',
-  width: 250,
+  width: 360,
   align: 'left',
   render: (h, scoped) => {
     return (
       <div>
         <el-button style="padding-left:0" type="text" onClick={() => $this.configActivity(scoped)}>配置活动</el-button>
+        <el-divider direction="vertical"></el-divider>
+        <el-button type="text" onClick={() => $this.activityManage(scoped)}>活动管理</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" onClick={() => $this.editMoadl(scoped)}>编辑</el-button>
         <el-divider direction="vertical"></el-divider>
