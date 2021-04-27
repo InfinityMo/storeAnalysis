@@ -29,6 +29,10 @@
   }
 }
 
+.el-col-date {
+  width: 38%;
+}
+
 // loading
 .el-loading-spinner {
   position: fixed;
@@ -114,6 +118,13 @@
   padding: 0;
 }
 
+// el-input
+.has-limit {
+  .el-input__inner {
+    padding: 0 55px 0 15px;
+  }
+}
+
 .el-input__inner {
   border: 1px solid #D9D9D9;
 }
@@ -169,6 +180,10 @@
 
   .el-form-item {
     padding: 0 20px 15px 20px;
+
+    .el-form-item__content {
+      line-height: normal;
+    }
   }
 
   .search-btn {
@@ -187,12 +202,8 @@
   z-index: 5000 !important;
   min-width: auto;
 }
-
-.dialog-select {
-  z-index: 3100 !important;
-}
-
-.dialog-cascader {
+// 弹窗内部select、date、cascader等重置层级
+.dialog-upper {
   z-index: 3100 !important;
 }
 
@@ -201,7 +212,9 @@
 }
 
 // el-select
-.el-select {
+.el-select,
+.el-cascader,
+.el-date-editor.el-range-editor {
   width: 100%;
 }
 

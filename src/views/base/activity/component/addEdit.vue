@@ -3,21 +3,52 @@
            :rules="modalFormRules"
            ref="moadlForm"
            label-width="82px">
-    <el-form-item label="店铺名称："
-                  prop="title">
+    <el-form-item label="活动名称："
+                  prop="activityName">
       <el-input class="has-limit"
-                v-model="modalForm.title"
-                placeholder="请输入店铺名称"
+                v-model="modalForm.activityName"
+                placeholder="请输入活动名称"
                 maxlength=30
                 show-word-limit
                 autocomplete="off">
       </el-input>
     </el-form-item>
-    <el-form-item label="店铺链接："
-                  prop="shopLink">
-      <el-input v-model="modalForm.shopLink"
-                placeholder="请输入店铺链接"
-                autocomplete="off">
+    <el-form-item label="活动时间："
+                  prop="timeRange">
+      <el-date-picker popper-class="dialog-upper"
+                      v-model="modalForm.timeRange"
+                      :editable="false"
+                      :clearable="false"
+                      type="datetimerange"
+                      value-format="yyyy-MM-dd HH:mm"
+                      format="yyyy-MM-dd HH:mm"
+                      range-separator="~"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
+      </el-date-picker>
+    </el-form-item>
+    <el-form-item label="活动等级："
+                  prop="level">
+      <el-select placeholder="请选择活动等级"
+                 popper-class="dialog-upper"
+                 v-model="modalForm.level">
+        <el-option v-for="item in stateOptions"
+                   :key="item.value"
+                   :label="item.label"
+                   :value="item.value">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="备注："
+                  prop="activityMemo">
+      <el-input v-model="modalForm.activityMemo"
+                autosize
+                type="textarea"
+                resize="none"
+                :clearable="true"
+                maxlength="500"
+                show-word-limit
+                placeholder="请输入备注">
       </el-input>
     </el-form-item>
   </el-form>
@@ -26,6 +57,7 @@
 <script>
 import tableMixin from '@/mixins/dealTable'
 import { modalForm, modalFormRules } from './formData'
+import { stateOptions } from '@/common/commonData/baseData'
 export default {
   mixins: [tableMixin],
   props: {
@@ -37,7 +69,8 @@ export default {
   data () {
     return {
       modalForm: JSON.parse(JSON.stringify(modalForm)),
-      modalFormRules: modalFormRules
+      modalFormRules: modalFormRules,
+      stateOptions: stateOptions
     }
   },
   created () {

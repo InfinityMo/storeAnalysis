@@ -124,3 +124,35 @@ export const linkInfo = {
     }
   ]
 }
+
+// 活动配置
+export const activityTableData = [
+  {
+    activityId: '1',
+    activityName: '520五月20号大促活动',
+    level: 'A级',
+    start: '2021-05-20 00:00',
+    end: '2021-05-21 23:59'
+  },
+  {
+    activityId: '2',
+    activityName: '6.18年中大促活动',
+    level: 'S级',
+    start: '2021-06-18 00:00',
+    end: '2021-06-18 23:59'
+  },
+  {
+    activityId: '3',
+    activityName: '双十一11月11日大促活动',
+    level: 'S级',
+    start: '2021-09-20 00:00',
+    end: '2021-11-11 23:59'
+  }
+]
+export const activityInfo = {
+  activityName: '3月8号三八妇女节女王节大促活动',
+  level: 'A级',
+  start: '2021-03-08 00:00',
+  end: '2021-03-08 23:59',
+  activityMemo: '部分商品满300减30，再送小样，贺卡，礼品包装，预售商品定金30抵40'
+}

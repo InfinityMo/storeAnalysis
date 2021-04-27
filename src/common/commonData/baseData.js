@@ -3,8 +3,8 @@ Author：Infinity
 Time：2021-04-25
 function：全局固定的数据文件
 */
-// 基础信息配置-店铺配置页面
-export const shopStatusOptions = [{
+// 基础信息配置-店铺配置，链接配置页面状态
+export const stateOptions = [{
   value: '-1',
   label: '全部'
 }, {

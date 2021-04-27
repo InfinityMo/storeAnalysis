@@ -19,7 +19,7 @@
                         prop="linkName">
             <el-select placeholder="请选择商品标题"
                        v-model="queryFrom.linkName">
-              <el-option v-for="item in shopStatus"
+              <el-option v-for="item in stateOptions"
                          :key="item.value"
                          :label="item.label"
                          :value="item.value">
@@ -32,7 +32,7 @@
                         prop="isValid">
             <el-select placeholder="请选择链接状态"
                        v-model="queryFrom.isValid">
-              <el-option v-for="item in shopStatus"
+              <el-option v-for="item in stateOptions"
                          :key="item.value"
                          :label="item.label"
                          :value="item.value">
@@ -79,7 +79,7 @@
 </template>
 <script>
 import tableMixin from '@/mixins/dealTable'
-import { shopStatusOptions } from '@/common/commonData/baseData'
+import { stateOptions } from '@/common/commonData/baseData'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
 import { linkTableData } from '@/common/commonData/testDevData'
@@ -94,7 +94,7 @@ export default {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
       tableData: linkTableData,
-      shopStatus: shopStatusOptions, // 监控状态下拉数据
+      stateOptions: stateOptions, // 监控状态下拉数据
       dialogTitle: '', // 弹窗的名称
       dialogShow: false,
       addEditId: '', // 编辑时存在id，新增时id为空

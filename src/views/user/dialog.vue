@@ -48,7 +48,7 @@
                         prop="seller_type"
                         label-width="110px">
             <el-select v-model="modalForm.seller_type"
-                       popper-class="dialog-select"
+                       popper-class="dialog-upper"
                        :disabled="disabled"
                        placeholder="请选择店铺类型">
               <el-option v-for="item in sellerType"
@@ -64,7 +64,7 @@
                         prop="is_owner"
                         label-width="110px">
             <el-select v-model="modalForm.is_owner"
-                       popper-class="dialog-select"
+                       popper-class="dialog-upper"
                        placeholder="请选择店铺归属">
               <el-option v-for="item in shopOwner"
                          :key="item.value"
