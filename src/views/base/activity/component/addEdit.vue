@@ -17,7 +17,7 @@
                   prop="timeRange">
       <el-date-picker popper-class="dialog-upper"
                       v-model="modalForm.timeRange"
-                      :editable="false"
+                      @change="durationcheck"
                       :clearable="false"
                       type="datetimerange"
                       value-format="yyyy-MM-dd HH:mm"
@@ -32,7 +32,7 @@
       <el-select placeholder="请选择活动等级"
                  popper-class="dialog-upper"
                  v-model="modalForm.level">
-        <el-option v-for="item in stateOptions"
+        <el-option v-for="item in activityLevels"
                    :key="item.value"
                    :label="item.label"
                    :value="item.value">
@@ -46,7 +46,7 @@
                 type="textarea"
                 resize="none"
                 :clearable="true"
-                maxlength="500"
+                maxlength="200"
                 show-word-limit
                 placeholder="请输入备注">
       </el-input>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import tableMixin from '@/mixins/dealTable'
 import { modalForm, modalFormRules } from './formData'
 import { stateOptions } from '@/common/commonData/baseData'
@@ -73,41 +74,18 @@ export default {
       stateOptions: stateOptions
     }
   },
+  computed: {
+    ...mapGetters(['activityLevels'])
+  },
   created () {
-
+    if (this.addEditId) {
+      this.getActivityData()
+    }
   },
   mounted () {
-
+    // debugger
   },
   methods: {
-    urlCheck (value) {
-      let cutIndex = 0
-      const formatVal = value.trim()
-      const hkIndex = formatVal.indexOf('.hk')
-      const comIndex = formatVal.indexOf('.com')
-      if (hkIndex !== -1) {
-        cutIndex = hkIndex + 3
-      }
-      if (comIndex !== -1) {
-        cutIndex = comIndex + 4
-      }
-      if (comIndex === -1 && hkIndex === -1) {
-        return false
-      }
-      const cutStr = formatVal.substring(0, cutIndex)
-      this.modalForm.shop_url = cutStr
-      return true
-    },
-    getFormData () {
-      this.$request.post('shopUpdate', { RowGuid: this.addEditId }).then(res => {
-        this.modalForm = {
-          ...res.data
-        }
-      })
-    },
-    // restForm (refId = 'moadlForm') {
-    //   this.$refs[refId].resetFields()
-    // },
     validForm () {
       return new Promise((resolve, reject) => {
         this.$refs.moadlForm.validate((valid) => {
@@ -122,28 +100,53 @@ export default {
         })
       })
     },
-    submitData () {
-      // const submitParams = {
-      //   RowGuid: this.addEditId,
-      //   shop_name: this.modalForm.shop_name,
-      //   user_id: this.modalForm.user_id,
-      //   shop_id: this.modalForm.shop_id,
-      //   seller_type: this.modalForm.seller_type,
-      //   is_owner: this.modalForm.is_owner,
-      //   shop_url: this.modalForm.shop_url,
-      //   select_brand: this.modalForm.select_brand.join()
-      // }
-      return new Promise((resolve, reject) => {
-        resolve(true)
-        // this.$request.post('/shopSave', submitParams).then(res => {
-        //   if (res.errorCode === 1) {
-        //     this.$message.success('保存成功')
-        //     resolve(true)
-        //   } else {
-        //     resolve(false)
-        //   }
-        // })
+    getActivityData () {
+      this.$request.post('/promotionconfig/promotiondetail', { activityId: this.addEditId }).then(res => {
+        if (res) {
+          const form = res.data
+          this.modalForm = {
+            ...form
+          }
+          this.$set(this.modalForm, 'timeRange', [form.start, form.end])
+        }
       })
+    },
+    submitData () {
+      const submitForm = {
+        activityId: this.addEditId,
+        ...this.modalForm,
+        start: this.modalForm.timeRange[0] || '',
+        end: this.modalForm.timeRange[1] || ''
+      }
+      delete submitForm.timeRange
+      return new Promise((resolve, reject) => {
+        this.$request.post('/promotionconfig/promotionset', submitForm).then(res => {
+          if (res.errorCode === 1) {
+            this.$message.success('保存成功')
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        })
+      })
+    },
+    durationcheck () {
+      this.$request.post('/promotionconfig/durationcheck', { start: this.modalForm.timeRange[0] || '', end: this.modalForm.timeRange[1] || '' }).then(res => {
+        if (res) {
+          if (res.data) {
+            this.$confirm('此时间段内已配置过活动，请注意', '提示', {
+              confirmButtonText: '确定',
+              showCancelButton: false,
+              type: 'warning'
+            }).then(() => {
+            }).catch(() => {
+            })
+          }
+        }
+      })
+    },
+    resetFrom () {
+      this.$refs.moadlForm.resetFields()
     },
     editModalFormRules () {
       this.$nextTick(() => {

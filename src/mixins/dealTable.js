@@ -117,10 +117,29 @@ const mixins = {
       month = month < 10 ? `0${month}` : month
       return year + '-' + month
     },
+    _fetchSelectData (url, type) {
+      // const option = []
+      return new Promise((resolve, reject) => {
+        this.$request.post(url, type).then(res => {
+          if (res) {
+            const dropData = res.data || []
+            // dropData.map((i) => {
+            //   option.push({
+            //     value: i.value,
+            //     label: i.name
+            //   })
+            // })
+            resolve(dropData)
+          }
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
     _getSelectData (type) {
       const option = []
       return new Promise((resolve, reject) => {
-        this.$request.post('/dropdownlist', { type: type }).then(res => {
+        this.$request.post('/promotionconfig/dropdownlist', { type: type }).then(res => {
           if (res) {
             const dropData = res.data || []
             dropData.map((i) => {

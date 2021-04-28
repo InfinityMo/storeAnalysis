@@ -4,7 +4,7 @@ export const columnsData = (h, $this) => [{
   align: 'left',
   width: 240
 }, {
-  dataKey: 'level',
+  dataKey: 'levelName',
   title: '活动等级',
   align: 'left'
 },
@@ -21,7 +21,7 @@ export const columnsData = (h, $this) => [{
 {
   dataKey: 'operate',
   title: '操作',
-  width: 250,
+  width: 230,
   align: 'left',
   render: (h, scoped) => {
     return (
@@ -30,7 +30,7 @@ export const columnsData = (h, $this) => [{
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" onClick={() => $this.openDraw(scoped)}>查看</el-button>
         <el-divider direction="vertical"></el-divider>
-        <el-popconfirm onOnConfirm={() => $this.deleteHandle(scoped)} placement="top" title="确定删除吗？">
+        <el-popconfirm onConfirm={() => $this.deleteHandle(scoped)} placement="top" title="确定删除吗？">
           <el-button type="text" slot="reference" >删除</el-button>
         </el-popconfirm>
       </div>

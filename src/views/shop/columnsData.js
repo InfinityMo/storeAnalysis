@@ -2,7 +2,12 @@ export const columnsData = (h, $this) => [{
   dataKey: 'title',
   title: '店铺名称',
   align: 'left',
-  width: 240
+  width: 280,
+  render: (h, scoped) => {
+    return (<div class="link-open span-text" onClick={() => window.open(scoped.row.shopLink)}>
+      {scoped.row.title}
+    </div>)
+  }
 }, {
   dataKey: 'saleValue',
   title: '销量',
@@ -19,19 +24,13 @@ export const columnsData = (h, $this) => [{
   align: 'right'
 },
 {
-  dataKey: 'operate',
-  title: '操作',
-  width: 250,
+  dataKey: 'isValid',
+  title: '监控状态',
+  width: 100,
   align: 'left',
   render: (h, scoped) => {
     return (
-      <div>
-        <el-button style="padding-left:0" type="text" onClick={() => $this.configActivity(scoped)}>配置活动</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" onClick={() => $this.editMoadl(scoped)}>编辑</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" onClick={() => $this.openDraw(scoped)}>查看</el-button>
-      </div>
+      scoped.row.isValid === '1' ? <span class="link-valid">已监控</span> : <span class="link-invalid">未监控</span>
     )
   }
 }]

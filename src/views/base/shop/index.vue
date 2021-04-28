@@ -192,7 +192,7 @@ export default {
     switchChange (scoped) {
       const { row } = scoped
       if (row.isValid === '0') {
-        this.$confirm('打开监控需要等待一天才能看到数据，是否继续?', '提示', {
+        this.$confirm('打开监控需要等待一天才能看到数据，是否打开?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

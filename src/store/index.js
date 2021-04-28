@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { createUUID } from '@/common/utils/funcStore'
 import menuData from '@/common/commonData/menuData.js'
+// import commonModule from './common'
 // import axios from '@/common/network/request'
 // import { Message } from 'element-ui'
 import createVuexAlong from 'vuex-along'
@@ -14,13 +15,15 @@ export default new Vuex.Store({
     cacheData: [], // 当前页面剩余的数据
     userData: {},
     trackId: '',
-    permissionsCode: ''
+    permissionsCode: '',
+    activityLevels: []
     // tableDataAll: []
   },
   getters: {
     menus: (state) => {
       return state.slideMenu
     },
+    activityLevels: state => state.activityLevels,
     getBreadCurmb: state => state.breadCurmb,
     getCacheData: state => state.cacheData,
     getUserData (state) {
@@ -97,7 +100,7 @@ export default new Vuex.Store({
   },
   // 配置store模块
   modules: {
-    // menu
+    // commonModule: commonModule
   },
   plugins: [
     createVuexAlong({

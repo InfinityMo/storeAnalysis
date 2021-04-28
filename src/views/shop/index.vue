@@ -64,7 +64,7 @@
 import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
-import { shopTableData } from '@/common/commonData/testDevData'
+import { shopInfoTableData } from '@/common/commonData/testDevData'
 import addEdit from './component/addEdit'
 import addActivity from './component/addActivity'
 import shopDetails from './component/shopDetails'
@@ -76,7 +76,7 @@ export default {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
-      tableData: shopTableData,
+      tableData: shopInfoTableData,
       dialogTitle: '', // 弹窗的名称
       dialogShow: false,
       addEditId: '', // 编辑时存在id，新增时id为空

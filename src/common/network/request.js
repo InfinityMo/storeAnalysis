@@ -18,7 +18,8 @@ const CancelToken = axios.CancelToken
 const source = CancelToken.source()
 // instance.defaults.withCredentials = true // 配置跨域，需要跨域时将此配置加上，同时需要后端配合开放跨域
 // 设置post请求默认 Content-Type
-instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
+instance.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+// instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
 // 请求服务器后返回的状态提示（请求异常时提示）
 // eslint-disable-next-line no-unused-vars
 const codeMessage = {
@@ -58,10 +59,14 @@ const removePending = (config) => {
 instance.interceptors.request.use(
   config => {
     config.cancelToken = source.token // 全局添加cancelToken
+    const serverData = {
+      trackId: store.state.trackId || '',
+      permissionsCode: store.state.permissionsCode || '',
+      user: store.state.userData.staffId || ''
+    }
+    if (!config.data) config.data = {}
     // 服务器全局检索字段
-    config.headers.trackId = store.state.trackId || ''
-    config.headers.permissionsCode = store.state.permissionsCode || ''
-    config.headers.user = store.state.userData.staffId || ''
+    config.data = Object.assign(config.data, serverData)
     // removePending(config)
     // 添加请求cancel
     // config.cancelToken = new axios.CancelToken((cancel) => {
@@ -69,7 +74,7 @@ instance.interceptors.request.use(
     //   pending.push({ url, cancel })
     // })
     // 序列化参数
-    config.data = stringify(config.data)
+    // config.data = stringify(config.data)
     return config
   },
   error => {

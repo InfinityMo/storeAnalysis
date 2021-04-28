@@ -175,3 +175,30 @@ export const activityManageTableData = [
     activityStatus: '3'
   }
 ]
+
+export const shopInfoTableData = [
+  {
+    shopId: '1',
+    title: 'Estee Lauder雅诗兰黛官方旗舰店',
+    saleValue: '99,999,999',
+    linkNum: '999',
+    activityNum: '1',
+    isValid: '0'
+  },
+  {
+    shopId: '2',
+    title: 'Estee Lauder雅诗兰黛官方旗舰店',
+    saleValue: '99,999,999',
+    linkNum: '999',
+    activityNum: '2',
+    isValid: '1'
+  },
+  {
+    shopId: '3',
+    title: 'Estee Lauder雅诗兰黛官方旗舰店',
+    saleValue: '99,999,999',
+    linkNum: '999',
+    activityNum: '3',
+    isValid: '1'
+  }
+]

@@ -12,7 +12,7 @@
       <ul v-for="(item,index) in detailInfo.currentActivityList"
           :key="index">
         <li class="flex"><label>隶属活动：</label><span>{{item.activityName}}</span></li>
-        <li class="flex"><label>活动等级：</label><span>{{item.level}}</span></li>
+        <li class="flex"><label>活动等级：</label><span>{{item.levelName}}</span></li>
         <li class="flex"><label>活动时间：</label><span>{{item.start}} ~ {{item.end}}</span></li>
         <li class="flex"><label>活动玩法：</label><span>{{item.rule}}</span></li>
       </ul>
@@ -22,7 +22,7 @@
       <ul v-for="(item,index) in detailInfo.historyActivityList"
           :key="index">
         <li class="flex"><label>历史活动：</label><span>{{item.activityName}}</span></li>
-        <li class="flex"><label>活动等级：</label><span>{{item.level}}</span></li>
+        <li class="flex"><label>活动等级：</label><span>{{item.levelName}}</span></li>
         <li class="flex"><label>活动时间：</label><span>{{item.start}} ~ {{item.end}}</span></li>
         <li class="flex"><label>活动玩法：</label><span>{{item.rule}}</span></li>
       </ul>

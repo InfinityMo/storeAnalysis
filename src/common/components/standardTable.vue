@@ -17,12 +17,15 @@
                    :column="column">
           </operate>
           <template v-else>
-            <span v-if="column.align"
+            <span class="span-text"
+                  v-if="column.align"
                   :class="['text-'+column.align]">{{ scope.row[column.dataKey] }}</span>
             <span v-else>
               <span v-if="column.isShowHtml"
+                    class="span-text"
                     v-html="scope.row[column.dataKey]"></span>
-              <span v-else>{{ scope.row[column.dataKey] }}</span>
+              <span v-else
+                    class="span-text">{{ scope.row[column.dataKey] }}</span>
             </span>
           </template>
         </template>
