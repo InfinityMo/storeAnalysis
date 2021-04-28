@@ -4,7 +4,7 @@ export const columnsData = (h, $this) => [{
   align: 'left',
   width: 280,
   render: (h, scoped) => {
-    return (<div class="link-open span-text" onClick={() => window.open(scoped.row.shopLink)}>
+    return (<div class="link-open span-text" onClick={() => $this.openNewtab(scoped)}>
       {scoped.row.title}
     </div>)
   }

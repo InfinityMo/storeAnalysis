@@ -1,11 +1,12 @@
 <template>
   <div class="head">
-    <div class="head-content flex-item-center">
+    <div class="head-content flex-item-center flex-between">
       <!-- 用户信息 -->
       <div class="flex-item-center user">
         <div><img src="@/assets/img/custom/cat2.jpg"></div>
         <p>欢迎您！Infinity</p>
       </div>
+      <slot name="left"></slot>
     </div>
   </div>
 </template>
@@ -26,7 +27,8 @@ export default {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   z-index: 2501;
   .head-content {
-    justify-content: flex-end;
+    flex-direction: row-reverse;
+    // justify-content: flex-end;
     height: 100%;
     padding: 0 60px;
     .user {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import baseLayout from '@/layouts/baseLayout'
+import tabLayout from '@/layouts/tabLayout'
 Vue.use(VueRouter)
 
 const routes = [
@@ -64,6 +65,20 @@ const routes = [
         name: 'RankEstimate',
         meta: { title: '预计排行' },
         component: () => import('@/views/rank/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/tab',
+    name: 'Tab',
+    meta: { title: '' },
+    component: tabLayout,
+    children: [
+      {
+        path: 'shopData',
+        name: 'ShopData',
+        meta: { title: '店铺信息' },
+        component: () => import('@/views/shop/data.vue')
       }
     ]
   },

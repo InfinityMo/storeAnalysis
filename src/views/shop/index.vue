@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+import { Base64 } from 'js-base64'
 import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
@@ -149,9 +150,15 @@ export default {
       }
       this.getTableData()
     },
-    // 开关事件
-    switchChange (scoped) {
-      //  const { row } = scoped
+    openNewtab (scoped) {
+      const { row } = scoped
+      const routeUrl = this.$router.resolve({
+        name: 'ShopData',
+        query: {
+          shopId: Base64.encode(row.shopId)
+        }
+      })
+      window.open(routeUrl.href, '_blank')
     },
     // 表格分页的变化
     tableChange (changeParams) {
