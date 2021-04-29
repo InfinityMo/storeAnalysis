@@ -72,7 +72,7 @@ export const linkTableData = [
   },
   {
     linkId: '2',
-    linkTitle: 'MAKE UP FOR EVER/玫珂菲Mini定妆套组蜜粉+定妆喷雾',
+    linkTitle: '【官方正品】MAKEUPFOREVER玫珂菲精准蜜粉刷128化妆刷散粉刷便携',
     linkName: 'https://makeupforever.tmall.com',
     activity: ['520测试活动1'],
     isValid: '1'

@@ -7,8 +7,9 @@
                        :show-overflow-tooltip="true"
                        :key="column.dataKey"
                        :label="column.title"
+                       :header-align="column.align||''"
                        :align="column.align||''"
-                       :fixed="column.fixed||''"
+                       :fixed="column.fixed||false"
                        :width="column.width">
         <template slot-scope="scope">
           <operate v-if="column.render"

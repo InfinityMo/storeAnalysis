@@ -2,6 +2,7 @@ export const columnsData = (h, $this) => [{
   dataKey: 'linkName',
   title: '链接地址',
   align: 'left',
+  width: 300,
   render: (h, scoped) => {
     return (<div class="link-open" onClick={() => window.open(scoped.row.linkName)}>
       {scoped.row.linkName}
@@ -12,7 +13,7 @@ export const columnsData = (h, $this) => [{
   dataKey: 'linkTitle',
   title: '商品标题',
   align: 'left',
-  width: 240
+  width: 480
 },
 {
   dataKey: 'isValid',
@@ -27,11 +28,11 @@ export const columnsData = (h, $this) => [{
 {
   dataKey: 'operate',
   title: '操作',
-  width: 170,
+  width: 150,
   align: 'left',
   render: (h, scoped) => {
     return (
-      <div>
+      <div class="operate-btn-group">
         <el-button style="padding-left:0" type="text" onClick={() => $this.configActivity(scoped)}>配置活动</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" onClick={() => $this.openDraw(scoped)}>查看</el-button>

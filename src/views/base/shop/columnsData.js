@@ -2,11 +2,12 @@ export const columnsData = (h, $this) => [{
   dataKey: 'title',
   title: '店铺名称',
   align: 'left',
-  width: 240
+  width: 310
 }, {
   dataKey: 'shopLink',
   title: '店铺链接',
   align: 'left',
+  width: 300,
   render: (h, scoped) => {
     return (<div class="link-open" onClick={() => window.open(scoped.row.shopLink)}>
       {scoped.row.shopLink}
@@ -45,11 +46,11 @@ export const columnsData = (h, $this) => [{
 {
   dataKey: 'operate',
   title: '操作',
-  width: 360,
+  width: 280,
   align: 'left',
   render: (h, scoped) => {
     return (
-      <div>
+      <div class="operate-btn-group">
         <el-button style="padding-left:0" type="text" onClick={() => $this.configActivity(scoped)}>配置活动</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" onClick={() => $this.activityManage(scoped)}>活动管理</el-button>

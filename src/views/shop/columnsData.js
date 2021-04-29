@@ -2,7 +2,7 @@ export const columnsData = (h, $this) => [{
   dataKey: 'title',
   title: '店铺名称',
   align: 'left',
-  width: 280,
+  width: 300,
   render: (h, scoped) => {
     return (<div class="link-open span-text" onClick={() => $this.openNewtab(scoped)}>
       {scoped.row.title}
@@ -26,8 +26,8 @@ export const columnsData = (h, $this) => [{
 {
   dataKey: 'isValid',
   title: '监控状态',
-  width: 100,
-  align: 'left',
+  width: 200,
+  align: 'right',
   render: (h, scoped) => {
     return (
       scoped.row.isValid === '1' ? <span class="link-valid">已监控</span> : <span class="link-invalid">未监控</span>

@@ -2,7 +2,7 @@ export const columnsData = (h, $this) => [{
   dataKey: 'activityName',
   title: '活动名称',
   align: 'left',
-  width: 240
+  width: 440
 }, {
   dataKey: 'levelName',
   title: '活动等级',
@@ -21,11 +21,11 @@ export const columnsData = (h, $this) => [{
 {
   dataKey: 'operate',
   title: '操作',
-  width: 230,
+  width: 170,
   align: 'left',
   render: (h, scoped) => {
     return (
-      <div>
+      <div class="operate-btn-group">
         <el-button style="padding-left:0" type="text" onClick={() => $this.editMoadl(scoped)}>编辑</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" onClick={() => $this.openDraw(scoped)}>查看</el-button>
