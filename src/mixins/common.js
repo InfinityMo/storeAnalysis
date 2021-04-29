@@ -5,16 +5,17 @@ const mixins = {
     }
   },
   methods: {
-    getLastMonth () { // 获取上个月日期 格式 2020-12
-      const date = new Date()
-      let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      if (month === 0) {
-        year = year - 1
-        month = 12
-      }
-      month = month < 10 ? `0${month}` : month
-      return year + '-' + month
+    _fetchSelectData (url, type) {
+      return new Promise((resolve, reject) => {
+        this.$request.post(url, type).then(res => {
+          if (res) {
+            const dropData = res.data || []
+            resolve(dropData)
+          }
+        }).catch(err => {
+          reject(err)
+        })
+      })
     },
     _getSelectData (type) {
       const option = []

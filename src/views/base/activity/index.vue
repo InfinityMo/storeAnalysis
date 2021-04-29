@@ -196,6 +196,7 @@ export default {
       this.dialogShow = false
     },
     queryHandel () {
+      this._resetPageNum()
       this.getTableData()
     },
     deleteHandle (scoped) {

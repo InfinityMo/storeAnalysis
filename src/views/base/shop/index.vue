@@ -7,11 +7,22 @@
                label-width="70px">
         <el-col :span="8">
           <el-form-item label="店铺名称："
-                        prop="title">
-            <el-input v-model="queryFrom.title"
+                        prop="shopId">
+            <!-- <el-input v-model="queryFrom.title"
                       placeholder="请输入店铺名称"
                       autocomplete="off">
-            </el-input>
+            </el-input> -->
+            <el-select v-model="queryFrom.shopId"
+                       filterable
+                       remote
+                       placeholder="请输入店铺名称"
+                       :remote-method="remoteMethod">
+              <el-option v-for="item in searchSelectOption"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -94,7 +105,6 @@ import tableMixin from '@/mixins/dealTable'
 import { stateOptions } from '@/common/commonData/baseData'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
-import { shopTableData } from '@/common/commonData/testDevData'
 import addEdit from './component/addEdit'
 import addActivity from './component/addActivity'
 import shopDetails from './component/shopDetails'
@@ -106,7 +116,7 @@ export default {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
-      tableData: shopTableData,
+      tableData: [],
       stateOptions: stateOptions, // 监控状态下拉数据
       dialogTitle: '', // 弹窗的名称
       dialogShow: false,
@@ -114,19 +124,38 @@ export default {
       manageDialogShow: false,
       actDialogShow: false,
       drawerShow: false,
-      drawerTitle: ''
+      drawerTitle: '',
+      allShopOption: [], // 所有店铺数据
+      searchSelectOption: [] // 搜索候选数据源
     }
   },
   created () {
-
-    // this.getSelects()
+    this.getSelectData()
+    this.getTableData() // 获取列表数据
   },
   mounted () {
     // this.getTableData() // 获取列表数据
   },
   methods: {
+    getSelectData () {
+      Promise.all([
+        this._fetchSelectData('/shopconfig/dropdownlist', { type: '1' })
+      ]).then(res => {
+        this.allShopOption = res[0]
+      })
+    },
     getTableData () {
-      this.$request.post('./')
+      const searchForm = {
+        ...this.queryFrom,
+        pageNum: this.PAGING.pageNum,
+        pageSize: this.PAGING.pageSize
+      }
+      delete searchForm.timeRange
+      this.$request.post('/shopconfig/shoplist', searchForm).then(res => {
+        const resData = res.data.result || []
+        this.tableData = resData
+        this.PAGING.total = res.data.total
+      })
     },
     // 新增
     addHandle () {
@@ -154,6 +183,7 @@ export default {
     dialogConfirm () {
       this.$refs.addContent.validForm().then(res => {
         if (res) {
+          this.getTableData()
           this.dialogShow = false
         }
       })
@@ -162,45 +192,73 @@ export default {
     dialogCancel () {
       this.dialogShow = false
     },
-    configActivity () {
+    configActivity (scoped) {
+      const { row } = scoped
+      this.addEditId = row.shopId
       this.actDialogShow = true
     },
     actDialogConfirm () {
       this.$refs.actContent.validForm().then(res => {
         if (res) {
-          this.dialogShow = false
+          this.getTableData()
+          this.actDialogShow = false
         }
       })
     },
     actDialogCancel () {
       this.actDialogShow = false
     },
-    activityManage () {
+    activityManage (scoped) {
+      const { row } = scoped
       this.manageDialogShow = true
+      this.addEditId = row.shopId
     },
     manageDialogCancel () {
+      this.getTableData()
       this.manageDialogShow = false
-      // this.getTableData()
     },
     queryHandel () {
-      this.queryFrom = {
-        RowGuid: this.searchForm.RowGuid[0] || ''
-      }
+      this._resetPageNum()
       this.getTableData()
     },
     // 开关事件
     switchChange (scoped) {
       const { row } = scoped
-      if (row.isValid === '0') {
+      if (row.isValid === 0) {
         this.$confirm('打开监控需要等待一天才能看到数据，是否打开?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          debugger
+          this.$request.post('/shopconfig/changestatus', { shopId: row.shopId, isValid: row.isValid }).then(res => {
+            if (res.errorCode === 1) {
+              this.$message.success('操作成功')
+              this.getTableData()
+            } else {
+              this.$message.success('操作失败')
+            }
+          })
         }).catch(() => {
-
+          return false
         })
+      } else {
+        this.$request.post('/shopconfig/changestatus', { shopId: row.shopId, isValid: row.isValid }).then(res => {
+          if (res.errorCode === 1) {
+            this.$message.success('操作成功')
+            this.getTableData()
+          } else {
+            this.$message.success('操作失败')
+          }
+        })
+      }
+    },
+    remoteMethod (query) {
+      if (query !== '') {
+        this.searchSelectOption = this.allShopOption.filter(item => {
+          return (item.label.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+        })
+      } else {
+        this.searchSelectOption = []
       }
     },
     // 表格分页的变化

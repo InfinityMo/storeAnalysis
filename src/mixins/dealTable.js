@@ -1,4 +1,4 @@
-import { getLastSevenDay, getLastThirtyDay, prevWeek, prevYear, recentYear, monthSpliceDay } from '../common/utils/timeCalc'
+
 // import { createUUID } from '../common/utils/funcStore'
 const mixins = {
   data () {
@@ -106,29 +106,12 @@ const mixins = {
     }
   },
   methods: {
-    getLastMonth () { // 获取上个月日期 格式 2020-12
-      const date = new Date()
-      let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      if (month === 0) {
-        year = year - 1
-        month = 12
-      }
-      month = month < 10 ? `0${month}` : month
-      return year + '-' + month
-    },
+
     _fetchSelectData (url, type) {
-      // const option = []
       return new Promise((resolve, reject) => {
         this.$request.post(url, type).then(res => {
           if (res) {
             const dropData = res.data || []
-            // dropData.map((i) => {
-            //   option.push({
-            //     value: i.value,
-            //     label: i.name
-            //   })
-            // })
             resolve(dropData)
           }
         }).catch(err => {
@@ -185,52 +168,6 @@ const mixins = {
       })
       return child
     },
-    // 处理时间
-    timeTypeChange (timeType) {
-      this.timeSection = []
-      this.searchForm.month = ''
-      // this.searchForm.monthRange = ''
-      switch (timeType) {
-        // 最近7天
-        case 1:
-          this.timeSection = getLastSevenDay()
-          break
-        // 上周
-        case 2:
-          this.timeSection = prevWeek()
-          break
-        // 默认为当月
-        case 3:
-          // eslint-disable-next-line no-case-declarations
-          const nowDate = new Date()
-          // eslint-disable-next-line no-case-declarations
-          const year = nowDate.getFullYear()
-          // eslint-disable-next-line no-case-declarations
-          const month = nowDate.getMonth() + 1 > 10 ? nowDate.getMonth() + 1 : '0' + (nowDate.getMonth() + 1)
-          this.searchForm.month = `${year}-${month}`
-          break
-        // 最近三十天
-        case 4:
-          this.timeSection = getLastThirtyDay()
-          break
-        // 最近一年
-        case 5:
-          this.timeSection = recentYear()
-          break
-        // 去年
-        case 6:
-          this.timeSection = prevYear()
-          break
-        // 月度范围
-        // case 7:
-        //   this.timeSection = monthRange()
-        //   break
-      }
-    },
-    // 格式化月份时间
-    fromatMonth () {
-      return monthSpliceDay(this.searchForm.month)
-    },
     _isLastPage () {
       const lastPage = Math.ceil(this.PAGING.total / this.PAGING.pageSize)
       // 最后一页的条数
@@ -244,6 +181,11 @@ const mixins = {
         }
       }
     },
+    // 查询时重置当前页数为1
+    _resetPageNum () {
+      this.PAGING.pageNum = 1
+    },
+    // 重置表单
     _resetForm (formName) {
       this.$refs[formName].resetFields()
     }

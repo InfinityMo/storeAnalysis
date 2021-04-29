@@ -15,12 +15,12 @@ export const columnsData = (h, $this) => [{
   }
 },
 {
-  dataKey: 'activity',
+  dataKey: 'promotionCount',
   title: '当前活动数',
   align: 'left',
   render: (h, scoped) => {
     return (<div>
-      {scoped.row.activity.length}
+      {scoped.row.promotionCount}
     </div>)
   }
 },
@@ -34,12 +34,12 @@ export const columnsData = (h, $this) => [{
         <el-switch
           value={scoped.row.isValid}
           onchange={() => $this.switchChange(scoped)}
-          active-value="1"
-          inactive-value="0"
+          active-value={1}
+          inactive-value={0}
           active-color="#2BB8BD"
           inactive-color="#dcdfe6">
         </el-switch>
-      </div>
+      </div >
     )
   }
 },

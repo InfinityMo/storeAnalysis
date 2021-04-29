@@ -27,6 +27,6 @@ export const editAitivityForm = {
 export const editAitivityFormRules = {
 
   activityId: [
-    { required: true, message: '请选择活动时间', trigger: 'change' }
+    { required: true, message: '请选择活动', trigger: 'change' }
   ]
 }

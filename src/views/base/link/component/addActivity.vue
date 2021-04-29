@@ -17,9 +17,10 @@
                       :ref="'dynamicData.' + index + '.activityId'"
                       :prop="'dynamicData.' + index + '.activityId'"
                       :rules="{required: true, message: '请选择活动', trigger: 'change'}">
-          <el-select placeholder="请选择活动"
+          <el-select popper-class="dialog-upper"
+                     placeholder="请选择活动"
                      v-model="dynamicItem.activityId">
-            <el-option v-for="item in activityOption"
+            <el-option v-for="item in startedActivityOption"
                        :key="item.value"
                        :label="item.label"
                        :value="item.value">
@@ -75,16 +76,24 @@ export default {
           }
         ]
       },
-      activityOption: []
+      startedActivityOption: []
     }
   },
   created () {
-
+    this.getNotFinishActivity()
   },
   mounted () {
 
   },
   methods: {
+    getNotFinishActivity () {
+      this._fetchSelectData('/promotionconfig/dropdownlist', {
+        type: '',
+        optionalDict: { key: '2', value: 'notend' }
+      }).then(res => {
+        this.startedActivityOption = res
+      })
+    },
     addHandle () {
       this.dynamicForm.dynamicData.push({
         itemId: this.$createUUID(),
@@ -117,26 +126,19 @@ export default {
       })
     },
     submitData () {
-      // const submitParams = {
-      //   RowGuid: this.addEditId,
-      //   shop_name: this.modalForm.shop_name,
-      //   user_id: this.modalForm.user_id,
-      //   shop_id: this.modalForm.shop_id,
-      //   seller_type: this.modalForm.seller_type,
-      //   is_owner: this.modalForm.is_owner,
-      //   shop_url: this.modalForm.shop_url,
-      //   select_brand: this.modalForm.select_brand.join()
-      // }
+      const submitForm = {
+        linkId: this.addEditId,
+        activityList: JSON.stringify(this.dynamicForm.dynamicData)
+      }
       return new Promise((resolve, reject) => {
-        resolve(true)
-        // this.$request.post('/shopSave', submitParams).then(res => {
-        //   if (res.errorCode === 1) {
-        //     this.$message.success('保存成功')
-        //     resolve(true)
-        //   } else {
-        //     resolve(false)
-        //   }
-        // })
+        this.$request.post('/linkconfig/setlinkpromotion', submitForm).then(res => {
+          if (res.errorCode === 1) {
+            this.$message.success('保存成功')
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        })
       })
     }
   }

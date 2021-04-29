@@ -55,12 +55,12 @@
   overflow-y: auto;
 
   .details-item {
-    margin-top: 30px;
+    padding-top: 30px;
     padding-bottom: 4px;
     font-size: 14px;
     line-height: 20px;
     color: #333;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
 
     h4 {
       padding-bottom: 20px;
@@ -85,12 +85,13 @@
   }
 
   .details-item:first-child {
-    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
   }
 
-  .details-item:last-child {
-    border-bottom: 0;
-  }
+  // .details-item:last-child {
+  //   border-bottom: 0;
+  // }
 }
 
 .activity-status::before {

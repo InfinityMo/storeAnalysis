@@ -1,8 +1,13 @@
 export const columnsData = (h, $this) => [{
+  dataKey: 'title',
+  title: '店铺名称',
+  align: 'left',
+  width: 280
+}, {
   dataKey: 'linkName',
   title: '链接地址',
   align: 'left',
-  width: 300,
+  width: 250,
   render: (h, scoped) => {
     return (<div class="link-open" onClick={() => window.open(scoped.row.linkName)}>
       {scoped.row.linkName}
@@ -21,19 +26,21 @@ export const columnsData = (h, $this) => [{
   align: 'left',
   render: (h, scoped) => {
     return (
-      scoped.row.isValid === '1' ? <span class="link-valid">有效</span> : <span class="link-invalid">无效</span>
+      scoped.row.isValid === 1 ? <span class="link-valid">有效</span> : <span class="link-invalid">无效</span>
     )
   }
 },
 {
   dataKey: 'operate',
   title: '操作',
-  width: 150,
+  width: 230,
   align: 'left',
   render: (h, scoped) => {
     return (
       <div class="operate-btn-group">
         <el-button style="padding-left:0" type="text" onClick={() => $this.configActivity(scoped)}>配置活动</el-button>
+        <el-divider direction="vertical"></el-divider>
+        <el-button type="text" onClick={() => $this.activityManage(scoped)}>活动管理</el-button>
         <el-divider direction="vertical"></el-divider>
         <el-button type="text" onClick={() => $this.openDraw(scoped)}>查看</el-button>
       </div>

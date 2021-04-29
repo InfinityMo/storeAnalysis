@@ -8,7 +8,7 @@
       <el-select popper-class="dialog-upper"
                  placeholder="请选择活动"
                  v-model="modalForm.activityId">
-        <el-option v-for="item in activityOption"
+        <el-option v-for="item in startedActivityOption"
                    :key="item.value"
                    :label="item.label"
                    :value="item.value">
@@ -32,7 +32,7 @@
 
 <script>
 import tableMixin from '@/mixins/dealTable'
-import { editAitivityForm, editAitivityFormRules } from './formData'
+import { editAitivityFormRules } from './formData'
 
 export default {
   mixins: [tableMixin],
@@ -51,33 +51,37 @@ export default {
     activityId: {
       type: [String, Number],
       required: true
+    },
+    modalForm: {
+      type: Object,
+      required: true,
+      default: () => { }
     }
   },
   data () {
     return {
-      modalForm: JSON.parse(JSON.stringify(editAitivityForm)),
+      // modalForm: JSON.parse(JSON.stringify(editAitivityForm)),
       modalFormRules: editAitivityFormRules,
-      activityOption: []
+      startedActivityOption: [],
+      oldActivityId: ''
     }
   },
   created () {
-
+    this.getNotFinishActivity()
+    this.oldActivityId = this.modalForm.activityId
   },
   mounted () {
 
   },
   methods: {
-
-    getFormData () {
-      this.$request.post('shopUpdate', { RowGuid: this.addEditId }).then(res => {
-        this.modalForm = {
-          ...res.data
-        }
+    getNotFinishActivity () {
+      this._fetchSelectData('/promotionconfig/dropdownlist', {
+        type: '',
+        optionalDict: { key: '2', value: 'notend' }
+      }).then(res => {
+        this.startedActivityOption = res
       })
     },
-    // restForm (refId = 'moadlForm') {
-    //   this.$refs[refId].resetFields()
-    // },
     validForm () {
       return new Promise((resolve, reject) => {
         this.$refs.moadlForm.validate((valid) => {
@@ -93,29 +97,29 @@ export default {
       })
     },
     submitData () {
-      // const submitParams = {
-      //   RowGuid: this.addEditId,
-      //   shop_name: this.modalForm.shop_name,
-      //   user_id: this.modalForm.user_id,
-      //   shop_id: this.modalForm.shop_id,
-      //   seller_type: this.modalForm.seller_type,
-      //   is_owner: this.modalForm.is_owner,
-      //   shop_url: this.modalForm.shop_url,
-      //   select_brand: this.modalForm.select_brand.join()
-      // }
+      let url = ''
+      const submitForm = {
+        oldActivityId: this.oldActivityId,
+        ...this.modalForm
+      }
+      if (this.activityType === '1') {
+        url = '/shopconfig/seteachshoppromotion'
+        submitForm.shopId = this.dataId
+      } else {
+        url = '/linkconfig/seteachlinkpromotion'
+        submitForm.linkId = this.dataId
+      }
       return new Promise((resolve, reject) => {
-        resolve(true)
-        // this.$request.post('/shopSave', submitParams).then(res => {
-        //   if (res.errorCode === 1) {
-        //     this.$message.success('保存成功')
-        //     resolve(true)
-        //   } else {
-        //     resolve(false)
-        //   }
-        // })
+        this.$request.post(url, submitForm).then(res => {
+          if (res.errorCode === 1) {
+            this.$message.success('保存成功')
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        })
       })
     }
-
   }
 }
 </script>

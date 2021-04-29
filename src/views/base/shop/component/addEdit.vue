@@ -13,6 +13,17 @@
                 autocomplete="off">
       </el-input>
     </el-form-item>
+    <el-form-item label="店铺Id："
+                  prop="shopId">
+      <el-input class="has-limit"
+                v-model="modalForm.shopId"
+                :disabled="Boolean(addEditId)"
+                placeholder="请输入店铺Id"
+                maxlength=20
+                show-word-limit
+                autocomplete="off">
+      </el-input>
+    </el-form-item>
     <el-form-item label="店铺链接："
                   prop="shopLink">
       <el-input v-model="modalForm.shopLink"
@@ -41,40 +52,23 @@ export default {
     }
   },
   created () {
-
+    if (this.addEditId) {
+      this.getFormData()
+    }
   },
   mounted () {
 
   },
   methods: {
-    urlCheck (value) {
-      let cutIndex = 0
-      const formatVal = value.trim()
-      const hkIndex = formatVal.indexOf('.hk')
-      const comIndex = formatVal.indexOf('.com')
-      if (hkIndex !== -1) {
-        cutIndex = hkIndex + 3
-      }
-      if (comIndex !== -1) {
-        cutIndex = comIndex + 4
-      }
-      if (comIndex === -1 && hkIndex === -1) {
-        return false
-      }
-      const cutStr = formatVal.substring(0, cutIndex)
-      this.modalForm.shop_url = cutStr
-      return true
-    },
+
     getFormData () {
-      this.$request.post('shopUpdate', { RowGuid: this.addEditId }).then(res => {
+      this.$request.post('/shopconfig/shopdetail', { shopId: this.addEditId }).then(res => {
         this.modalForm = {
+          shopId: this.addEditId,
           ...res.data
         }
       })
     },
-    // restForm (refId = 'moadlForm') {
-    //   this.$refs[refId].resetFields()
-    // },
     validForm () {
       return new Promise((resolve, reject) => {
         this.$refs.moadlForm.validate((valid) => {
@@ -90,46 +84,18 @@ export default {
       })
     },
     submitData () {
-      // const submitParams = {
-      //   RowGuid: this.addEditId,
-      //   shop_name: this.modalForm.shop_name,
-      //   user_id: this.modalForm.user_id,
-      //   shop_id: this.modalForm.shop_id,
-      //   seller_type: this.modalForm.seller_type,
-      //   is_owner: this.modalForm.is_owner,
-      //   shop_url: this.modalForm.shop_url,
-      //   select_brand: this.modalForm.select_brand.join()
-      // }
+      const submitForm = {
+        ...this.modalForm
+      }
       return new Promise((resolve, reject) => {
-        resolve(true)
-        // this.$request.post('/shopSave', submitParams).then(res => {
-        //   if (res.errorCode === 1) {
-        //     this.$message.success('保存成功')
-        //     resolve(true)
-        //   } else {
-        //     resolve(false)
-        //   }
-        // })
-      })
-    },
-    editModalFormRules () {
-      this.$nextTick(() => {
-        this.modalFormRules.shop_url[0].validator = (rule, value, callback) => {
-          if (value === '') {
-            callback(new Error('请输入店铺链接'))
+        this.$request.post('/shopconfig/shopset', submitForm).then(res => {
+          if (res.errorCode === 1) {
+            this.$message.success('保存成功')
+            resolve(true)
           } else {
-            const reg = /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/
-            if (reg.test(value)) {
-              if (this.urlCheck(value)) {
-                callback()
-              } else {
-                callback(new Error('请输入正确的店铺链接'))
-              }
-            } else {
-              callback(new Error('请输入正确的店铺链接'))
-            }
+            resolve(false)
           }
-        }
+        })
       })
     }
   }
