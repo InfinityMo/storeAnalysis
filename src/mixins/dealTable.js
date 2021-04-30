@@ -106,10 +106,9 @@ const mixins = {
     }
   },
   methods: {
-
-    _fetchSelectData (url, type) {
+    _fetchSelectData (...params) {
       return new Promise((resolve, reject) => {
-        this.$request.post(url, type).then(res => {
+        this.$request.post('/interfacecommon/dropdownlist', { type: arguments[0], optionalDict: arguments[1] }).then(res => {
           if (res) {
             const dropData = res.data || []
             resolve(dropData)

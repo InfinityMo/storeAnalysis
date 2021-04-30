@@ -56,7 +56,7 @@ const routes = [
   {
     path: '/rank',
     name: 'Rank',
-    meta: { title: '' },
+    meta: { title: '特殊活动' },
     component: baseLayout,
     redirect: '/rankEstimate',
     children: [

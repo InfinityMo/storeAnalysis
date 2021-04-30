@@ -75,10 +75,7 @@ export default {
   },
   methods: {
     getNotFinishActivity () {
-      this._fetchSelectData('/promotionconfig/dropdownlist', {
-        type: '',
-        optionalDict: { key: '2', value: 'notend' }
-      }).then(res => {
+      this._fetchSelectData('3', { key: '2', value: 'notend' }).then(res => {
         this.startedActivityOption = res
       })
     },

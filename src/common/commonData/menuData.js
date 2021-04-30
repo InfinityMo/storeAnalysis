@@ -2,7 +2,7 @@ export default [
   {
     pId: '1',
     pTitle: '基础信息配置',
-    icon: 'icon-information-16',
+    icon: 'icon-config-16',
     pPath: '/base',
     children: [{
       path: '/base/shop',
@@ -13,19 +13,22 @@ export default [
     }, {
       path: '/base/activity',
       title: '活动配置'
-    }
-    ]
+    }]
   },
   {
     pId: '2',
     pTitle: '店铺信息',
-    icon: 'icon-staff-16',
+    icon: 'icon-shop-16',
     pPath: '/shop/shopInfo'
   },
   {
     pId: '3',
-    pTitle: '预计排行',
-    icon: 'icon-dept-16',
-    pPath: '/rank/rankEstimate'
+    pTitle: '特殊活动',
+    icon: 'icon-rank-16',
+    pPath: '/rank',
+    children: [{
+      path: '/rank/rankEstimate',
+      title: '预计排行'
+    }]
   }
 ]

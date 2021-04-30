@@ -111,7 +111,7 @@
 </template>
 <script>
 import tableMixin from '@/mixins/dealTable'
-import { stateOptions } from '@/common/commonData/baseData'
+import { linkStateOptions } from '@/common/commonData/baseData'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
 import addActivity from './component/addActivity'
@@ -126,7 +126,7 @@ export default {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
       tableData: [],
-      stateOptions: stateOptions, // 监控状态下拉数据
+      stateOptions: linkStateOptions, // 监控状态下拉数据
       dialogTitle: '', // 弹窗的名称
       dialogShow: false,
       addEditId: '', // 编辑时存在id，新增时id为空
@@ -148,8 +148,8 @@ export default {
   methods: {
     getSelectData () {
       Promise.all([
-        this._fetchSelectData('/shopconfig/dropdownlist', { type: '1' }),
-        this._fetchSelectData('/linkconfig/dropdownlist', { type: '2' })
+        this._fetchSelectData('2', {}),
+        this._fetchSelectData('2', {})
       ]).then(res => {
         this.allShopOption = res[0]
         this.allLinkOption = res[1]

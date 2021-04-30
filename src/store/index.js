@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { createUUID } from '@/common/utils/funcStore'
 import menuData from '@/common/commonData/menuData.js'
-// import commonModule from './common'
+import commonModule from './modules/common'
 // import axios from '@/common/network/request'
 // import { Message } from 'element-ui'
 import createVuexAlong from 'vuex-along'
@@ -12,20 +12,17 @@ export default new Vuex.Store({
     spinning: false, // 加载loading的状态
     slideMenu: [],
     breadCurmb: [],
-    cacheData: [], // 当前页面剩余的数据
     userData: {},
     trackId: '',
     permissionsCode: '',
     activityLevels: []
-    // tableDataAll: []
   },
   getters: {
     menus: (state) => {
       return state.slideMenu
     },
-    activityLevels: state => state.activityLevels,
+    // activityLevels: state => state.activityLevels,
     getBreadCurmb: state => state.breadCurmb,
-    getCacheData: state => state.cacheData,
     getUserData (state) {
       const userData = state.userData || {}
       if (Object.keys(userData).length <= 0) {
@@ -100,7 +97,7 @@ export default new Vuex.Store({
   },
   // 配置store模块
   modules: {
-    // commonModule: commonModule
+    commonModule: commonModule
   },
   plugins: [
     createVuexAlong({

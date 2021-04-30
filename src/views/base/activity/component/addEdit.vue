@@ -75,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['activityLevels'])
+    ...mapGetters('commonModule', ['activityLevels'])
   },
   created () {
     if (this.addEditId) {

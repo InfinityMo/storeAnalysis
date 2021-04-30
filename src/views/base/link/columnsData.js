@@ -2,31 +2,31 @@ export const columnsData = (h, $this) => [{
   dataKey: 'title',
   title: '店铺名称',
   align: 'left',
-  width: 280
+  width: 180
+}, {
+  dataKey: 'linkTitle',
+  title: '商品标题',
+  align: 'left',
+  width: 450
 }, {
   dataKey: 'linkName',
   title: '链接地址',
   align: 'left',
-  width: 250,
   render: (h, scoped) => {
     return (<div class="link-open" onClick={() => window.open(scoped.row.linkName)}>
       {scoped.row.linkName}
     </div>)
   }
 },
-{
-  dataKey: 'linkTitle',
-  title: '商品标题',
-  align: 'left',
-  width: 480
-},
+
 {
   dataKey: 'isValid',
   title: '链接状态',
   align: 'left',
+  width: 80,
   render: (h, scoped) => {
     return (
-      scoped.row.isValid === 1 ? <span class="link-valid">有效</span> : <span class="link-invalid">无效</span>
+      scoped.row.isValid === 1 ? <span class="link-valid">在售</span> : <span class="link-invalid">已下架</span>
     )
   }
 },

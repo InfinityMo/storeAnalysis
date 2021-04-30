@@ -6,12 +6,12 @@
            label-width="82px">
     <div class="dynamic-item"
          v-for="(dynamicItem, index) in dynamicForm.dynamicData"
-         :key="dynamicItem.dynamicId">
+         :key="dynamicItem.itemId">
       <icon class="delete-icon"
             type="icon-delete-17"
             :hover="true"
             hoverType="icon-delete-hover-17"
-            @click.native="deleteItem(dynamicItem.dynamicId)" />
+            @click.native="deleteItem(dynamicItem.itemId)" />
       <div class="form-item">
         <el-form-item label="活动选择："
                       :ref="'dynamicData.' + index + '.activityId'"
@@ -86,10 +86,7 @@ export default {
   },
   methods: {
     getNotFinishActivity () {
-      this._fetchSelectData('/promotionconfig/dropdownlist', {
-        type: '',
-        optionalDict: { key: '2', value: 'notend' }
-      }).then(res => {
+      this._fetchSelectData('3', { key: '2', value: 'notend' }).then(res => {
         this.startedActivityOption = res
       })
     },
@@ -104,7 +101,7 @@ export default {
       if (this.dynamicForm.dynamicData.length < 2) {
         return false
       }
-      const targetIndex = this.dynamicForm.dynamicData.findIndex(i => i.dynamicId === id)
+      const targetIndex = this.dynamicForm.dynamicData.findIndex(i => i.itemId === id)
       if (targetIndex !== -1) {
         this.dynamicForm.dynamicData.splice(targetIndex, 1)
       }

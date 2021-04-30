@@ -128,17 +128,11 @@ export default {
 
   },
   methods: {
-    ...mapMutations(['SETBASICMUTATION']),
+    ...mapMutations('commonModule', ['SETBASICMUTATION']),
     getSelectData () {
       Promise.all([
-        this._fetchSelectData('/promotionconfig/dropdownlist', {
-          type: '',
-          optionalDict: { key: '0', value: 'all' }
-        }),
-        this._fetchSelectData('/promotionconfig/leveldropdownlist', {
-          type: '',
-          optionalDict: {}
-        })
+        this._fetchSelectData('3', { key: '0', value: 'all' }),
+        this._fetchSelectData('4', {})
       ]).then(res => {
         this.allActivityOption = res[0]
         this.activityLevels = res[1]

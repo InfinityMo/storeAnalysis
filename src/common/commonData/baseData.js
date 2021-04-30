@@ -14,3 +14,16 @@ export const stateOptions = [{
   value: '1',
   label: '打开'
 }]
+
+export const linkStateOptions = [
+  {
+    value: '-1',
+    label: '全部'
+  }, {
+    value: '0',
+    label: '已下架'
+  }, {
+    value: '1',
+    label: '在售'
+  }
+]

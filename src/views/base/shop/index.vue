@@ -139,7 +139,7 @@ export default {
   methods: {
     getSelectData () {
       Promise.all([
-        this._fetchSelectData('/shopconfig/dropdownlist', { type: '1' })
+        this._fetchSelectData('1', {})
       ]).then(res => {
         this.allShopOption = res[0]
       })
