@@ -78,7 +78,7 @@ const routes = [
         path: 'shopData',
         name: 'ShopData',
         meta: { title: '店铺信息' },
-        component: () => import('@/views/shop/data.vue')
+        component: () => import('@/views/shop/component/data.vue')
       }
     ]
   },

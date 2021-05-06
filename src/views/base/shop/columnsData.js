@@ -9,7 +9,7 @@ export const columnsData = (h, $this) => [{
   align: 'left',
   width: 300,
   render: (h, scoped) => {
-    return (<div class="link-open" onClick={() => window.open(scoped.row.shopLink)}>
+    return (<div class="link-open" onClick={() => /^https|http/.test(scoped.row.shopLink) ? window.open(scoped.row.shopLink) : window.open(`https://${scoped.row.shopLink}`)}>
       {scoped.row.shopLink}
     </div>)
   }

@@ -8,10 +8,17 @@
         <el-col :span="8">
           <el-form-item label="店铺名称："
                         prop="title">
-            <el-input v-model="queryFrom.title"
-                      placeholder="请输入店铺名称"
-                      autocomplete="off">
-            </el-input>
+            <el-select v-model="queryFrom.shopId"
+                       filterable
+                       remote
+                       placeholder="请输入店铺名称"
+                       :remote-method="remoteMethod">
+              <el-option v-for="item in searchSelectOption"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8"
@@ -33,31 +40,6 @@
                       :pagination="PAGING"
                       @tableChange="tableChange" />
     </div>
-    <Dialog :dialogTitle="dialogTitle"
-            dialogWidth="574px"
-            :dialogShow="dialogShow"
-            @dialogCancel="dialogCancel"
-            @dialogConfirm="dialogConfirm">
-      <addEdit slot="content"
-               ref="addContent"
-               :addEditId="addEditId" />
-    </Dialog>
-    <Dialog dialogTitle="配置活动"
-            dialogWidth="728px"
-            :dialogShow="actDialogShow"
-            @dialogCancel="actDialogCancel"
-            @dialogConfirm="actDialogConfirm">
-      <addActivity slot="content"
-                   ref="actContent"
-                   :addEditId="addEditId" />
-    </Dialog>
-    <Drawer :drawerTitle="drawerTitle"
-            drawerWidth="856px"
-            :drawerShow="drawerShow"
-            @drawerClosed="drawerClosed">
-      <shopDetails slot="content"
-                   :addEditId="addEditId" />
-    </Drawer>
   </div>
 </template>
 <script>
@@ -66,88 +48,56 @@ import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
 import { shopInfoTableData } from '@/common/commonData/testDevData'
-import addEdit from './component/addEdit'
-import addActivity from './component/addActivity'
-import shopDetails from './component/shopDetails'
 
 export default {
   mixins: [tableMixin],
-  components: { addEdit, addActivity, shopDetails },
   data () {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
       tableData: shopInfoTableData,
-      dialogTitle: '', // 弹窗的名称
-      dialogShow: false,
-      addEditId: '', // 编辑时存在id，新增时id为空
-      actDialogShow: false,
-      drawerShow: false,
-      drawerTitle: ''
+      allShopOption: [], // 所有店铺数据
+      searchSelectOption: [] // 搜索候选数据源
     }
   },
   created () {
-
-    // this.getSelects()
-  },
-  mounted () {
+    this.getSelectData()
     // this.getTableData() // 获取列表数据
   },
+  mounted () {
+
+  },
   methods: {
+    getSelectData () {
+      Promise.all([
+        this._fetchSelectData('1')
+      ]).then(res => {
+        this.allShopOption = res[0]
+      })
+    },
     getTableData () {
-      this.$request.post('./')
-    },
-    // 新增
-    addHandle () {
-      this.addEditId = ''
-      this.dialogTitle = '配置店铺'
-      this.dialogShow = true
-    },
-    // 编辑
-    editMoadl (scoped) {
-      const { row } = scoped
-      this.addEditId = row.shopId
-      this.dialogTitle = '编辑店铺'
-      this.dialogShow = true
-    },
-    // 查看
-    openDraw (scoped) {
-      const { row } = scoped
-      this.addEditId = row.shopId
-      this.drawerTitle = row.title
-      this.drawerShow = true
-    },
-    drawerClosed () {
-      this.drawerShow = false
-    },
-    dialogConfirm () {
-      this.$refs.addContent.validForm().then(res => {
-        if (res) {
-          this.dialogShow = false
-        }
+      const searchForm = {
+        ...this.queryFrom,
+        pageNum: this.PAGING.pageNum,
+        pageSize: this.PAGING.pageSize
+      }
+      this.$request.post('/shopconfig/shoplist', searchForm).then(res => {
+        const resData = res.data.result || []
+        this.tableData = resData
+        this.PAGING.total = res.data.total
       })
     },
-    // moadl关闭
-    dialogCancel () {
-      this.dialogShow = false
-    },
-    configActivity () {
-      this.actDialogShow = true
-    },
-    actDialogConfirm () {
-      this.$refs.actContent.validForm().then(res => {
-        if (res) {
-          this.dialogShow = false
-        }
-      })
-    },
-    actDialogCancel () {
-      this.actDialogShow = false
+    remoteMethod (query) {
+      if (query !== '') {
+        this.searchSelectOption = this.allShopOption.filter(item => {
+          return (item.label.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+        })
+      } else {
+        this.searchSelectOption = []
+      }
     },
     queryHandel () {
-      this.queryFrom = {
-        RowGuid: this.searchForm.RowGuid[0] || ''
-      }
+      this._resetPageNum()
       this.getTableData()
     },
     openNewtab (scoped) {

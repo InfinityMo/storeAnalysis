@@ -3,8 +3,6 @@ import Vuex from 'vuex'
 import { createUUID } from '@/common/utils/funcStore'
 import menuData from '@/common/commonData/menuData.js'
 import commonModule from './modules/common'
-// import axios from '@/common/network/request'
-// import { Message } from 'element-ui'
 import createVuexAlong from 'vuex-along'
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -22,14 +20,14 @@ export default new Vuex.Store({
       return state.slideMenu
     },
     // activityLevels: state => state.activityLevels,
-    getBreadCurmb: state => state.breadCurmb,
-    getUserData (state) {
-      const userData = state.userData || {}
-      if (Object.keys(userData).length <= 0) {
-        state.userData = JSON.parse(sessionStorage.getItem('userData'))
-      }
-      return state.userData || {}
-    }
+    getBreadCurmb: state => state.breadCurmb
+    // getUserData (state) {
+    //   const userData = state.userData || {}
+    //   if (Object.keys(userData).length <= 0) {
+    //     state.userData = JSON.parse(sessionStorage.getItem('userData'))
+    //   }
+    //   return state.userData || {}
+    // }
   },
   mutations: {
     // 突变配置加载loading的状态
@@ -42,9 +40,6 @@ export default new Vuex.Store({
     // 设置面包屑
     setBreadCurmb (state, payload) {
       state.breadCurmb = payload
-    },
-    SAVEUSERINFO (state, payload) {
-      state.userData = payload
     },
     SAVEPERMISSIONSCODE (state, payload) {
       state.permissionsCode = payload
@@ -62,17 +57,16 @@ export default new Vuex.Store({
   // 配置异步提交状态
   actions: {
     getUserInfo ({ commit }, form) {
-      sessionStorage.removeItem('userData')
+      localStorage.removeItem('userData')
       commit('RESETHEADERDATA')
       commit('SAVETRACKID', createUUID())
       return new Promise((resolve, reject) => {
-        sessionStorage.setItem('userData', JSON.stringify({
+        localStorage.setItem('userData', JSON.stringify({
           staffId: 'TL-1563'
         }))
         commit('SAVEPERMISSIONSCODE', '11111')
         commit('SETBASICMUTATION', { payload: menuData, storeName: 'slideMenu' })
         resolve(true)
-        // debugger
         // axios.post('/login', form).then(res => {
         //   const { data } = res
         //   if (res.errorCode === 1) {
@@ -91,7 +85,7 @@ export default new Vuex.Store({
       })
     },
     // 重置vuex
-    resetUSerInfo ({ commit }) {
+    resetUserInfo ({ commit }) {
       commit('RESETHEADERDATA')
     }
   },
@@ -101,7 +95,7 @@ export default new Vuex.Store({
   },
   plugins: [
     createVuexAlong({
-      name: 'promot',
+      name: 'system',
       local: false,
       session: {
         list: ['trackId', 'permissionsCode']

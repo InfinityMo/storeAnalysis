@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
     next()
     return
   }
-  const userData = JSON.parse(sessionStorage.getItem('userData')) || {}
+  const userData = JSON.parse(localStorage.getItem('userData')) || {}
   if (Object.keys(userData).length > 0) {
     next()
   } else {

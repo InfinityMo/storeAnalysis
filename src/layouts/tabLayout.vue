@@ -8,7 +8,7 @@
       <Header class="tab-head">
         <div slot="left">1111</div>
       </Header>
-      <router-view></router-view>
+      <router-view class="tab-content-wrap"></router-view>
       <copyright />
     </section>
   </div>
@@ -29,5 +29,8 @@ export default {
 .tab-head {
   left: 0;
   width: 100%;
+}
+.tab-content-wrap {
+  padding: 71px 20px 0 20px;
 }
 </style>

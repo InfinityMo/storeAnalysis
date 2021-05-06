@@ -179,26 +179,43 @@ export const activityManageTableData = [
 export const shopInfoTableData = [
   {
     shopId: '1',
-    title: 'Estee Lauder雅诗兰黛官方旗舰店',
-    saleValue: '99,999,999',
-    linkNum: '999',
-    activityNum: '1',
+    shopTitle: 'Estee Lauder雅诗兰黛官方旗舰店',
+    shopSoldCount: '99,999,999',
+    linkCount: '999',
+    promotionCount: '1',
     isValid: '0'
   },
   {
     shopId: '2',
-    title: 'Estee Lauder雅诗兰黛官方旗舰店',
-    saleValue: '99,999,999',
-    linkNum: '999',
-    activityNum: '2',
-    isValid: '1'
+    shopTitle: 'Estee Lauder雅诗兰黛官方旗舰店',
+    shopSoldCount: '99,999,999',
+    linkCount: '999',
+    promotionCount: '1',
+    isValid: '0'
   },
   {
     shopId: '3',
-    title: 'Estee Lauder雅诗兰黛官方旗舰店',
-    saleValue: '99,999,999',
-    linkNum: '999',
-    activityNum: '3',
+    shopTitle: 'Estee Lauder雅诗兰黛官方旗舰店',
+    shopSoldCount: '99,999,999',
+    linkCount: '999',
+    promotionCount: '1',
     isValid: '1'
+  }
+]
+
+export const shopLinkTableData = [
+  {
+    shopId: '1',
+    linkId: '1',
+    dateTime: '2020-12-01',
+    linkTitle: '欧莱雅黑精华抗初老细腻毛孔保湿抗皱肌底液精',
+    oriPrice: '99,999,999',
+    discountedPrice: '999',
+    deposit: '100',
+    restPayment: '111',
+    preOrderCount: '123',
+    soldCount: '45',
+    categoryName: '美妆/清洁/卸妆水',
+    promotionCount: '10'
   }
 ]

@@ -26,20 +26,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="商品标题："
+          <el-form-item label="商品名称："
                         prop="linkId">
-            <!-- <el-select placeholder="请选择商品标题"
-                       v-model="queryFrom.linkId">
-              <el-option v-for="item in stateOptions"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
-              </el-option>
-            </el-select> -->
             <el-select v-model="queryFrom.linkId"
                        filterable
                        remote
-                       placeholder="请选择商品标题"
+                       placeholder="请选择商品名称"
                        :remote-method="remoteLinkMethod">
               <el-option v-for="item in linkSearchSelectOption"
                          :key="item.value"
@@ -148,8 +140,8 @@ export default {
   methods: {
     getSelectData () {
       Promise.all([
-        this._fetchSelectData('2', {}),
-        this._fetchSelectData('2', {})
+        this._fetchSelectData('1'),
+        this._fetchSelectData('2')
       ]).then(res => {
         this.allShopOption = res[0]
         this.allLinkOption = res[1]
@@ -161,7 +153,7 @@ export default {
         pageNum: this.PAGING.pageNum,
         pageSize: this.PAGING.pageSize
       }
-      delete searchForm.timeRange
+      // delete searchForm.timeRange
       this.$request.post('/linkconfig/linklist', searchForm).then(res => {
         const resData = res.data.result || []
         this.tableData = resData

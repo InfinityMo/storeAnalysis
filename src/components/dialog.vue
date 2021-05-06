@@ -9,28 +9,6 @@
              custom-class="custom-dialog"
              :before-close="dialogCancel">
     <slot name="content"></slot>
-    <!-- <el-form :model="modalForm"
-             :rules="modalFormRules"
-             ref="moadlForm"
-             label-width="82px">
-      <el-form-item label="店铺名称："
-                    prop="shop_name">
-        <el-input v-model="modalForm.shop_name"
-                  placeholder="请输入店铺名称"
-                  maxlength=50
-                  :disabled="disabled"
-                  autocomplete="off">
-        </el-input>
-      </el-form-item>
-      <el-form-item label="店铺链接："
-                    prop="shop_url">
-        <el-input v-model="modalForm.shop_url"
-                  placeholder="请输入店铺链接"
-                  maxlength=100
-                  autocomplete="off">
-        </el-input>
-      </el-form-item>
-    </el-form> -->
     <div slot="footer"
          v-if="isShowFooter"
          class="dialog-footer">

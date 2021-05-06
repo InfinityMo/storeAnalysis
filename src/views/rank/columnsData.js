@@ -1,28 +1,36 @@
 export const columnsData = (h, $this) => [{
-  dataKey: 'staffName',
-  title: '姓名',
-  width: 190
+  dataKey: 'shopTitle',
+  title: '店铺名称',
+  align: 'left',
+  width: 300,
+  render: (h, scoped) => {
+    return (<div class="link-open span-text" onClick={() => $this.openNewtab(scoped)}>
+      {scoped.row.shopTitle}
+    </div>)
+  }
 }, {
-  dataKey: 'staffId',
-  title: '工号',
-  width: 330
-}, {
-  dataKey: 'dept',
-  title: '部门'
+  dataKey: 'shopSoldCount',
+  title: '销量',
+  align: 'right'
 },
 {
-  dataKey: 'operate',
-  title: '操作',
-  width: 120,
+  dataKey: 'linkCount',
+  title: '有效链接',
+  align: 'right'
+},
+{
+  dataKey: 'promotionCount',
+  title: '关联活动数',
+  align: 'right'
+},
+{
+  dataKey: 'isValid',
+  title: '监控状态',
+  width: 200,
+  align: 'right',
   render: (h, scoped) => {
     return (
-      <div>
-        <el-button type="text" onClick={() => $this.editMoadl(scoped)}>编辑</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-popconfirm onOnConfirm={() => $this.deleteHandle(scoped)} placement="top" title="确定删除吗？">
-          <el-button type="text" slot="reference" >删除</el-button>
-        </el-popconfirm>
-      </div>
+      scoped.row.isValid === '1' ? <span class="link-valid">已监控</span> : <span class="link-invalid">未监控</span>
     )
   }
 }]

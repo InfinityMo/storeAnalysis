@@ -132,7 +132,7 @@ export default {
     getSelectData () {
       Promise.all([
         this._fetchSelectData('3', { key: '0', value: 'all' }),
-        this._fetchSelectData('4', {})
+        this._fetchSelectData('4')
       ]).then(res => {
         this.allActivityOption = res[0]
         this.activityLevels = res[1]

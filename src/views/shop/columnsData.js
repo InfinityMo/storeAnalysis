@@ -1,25 +1,25 @@
 export const columnsData = (h, $this) => [{
-  dataKey: 'title',
+  dataKey: 'shopTitle',
   title: '店铺名称',
   align: 'left',
   width: 300,
   render: (h, scoped) => {
     return (<div class="link-open span-text" onClick={() => $this.openNewtab(scoped)}>
-      {scoped.row.title}
+      {scoped.row.shopTitle}
     </div>)
   }
 }, {
-  dataKey: 'saleValue',
+  dataKey: 'shopSoldCount',
   title: '销量',
   align: 'right'
 },
 {
-  dataKey: 'linkNum',
+  dataKey: 'linkCount',
   title: '有效链接',
   align: 'right'
 },
 {
-  dataKey: 'activityNum',
+  dataKey: 'promotionCount',
   title: '关联活动数',
   align: 'right'
 },

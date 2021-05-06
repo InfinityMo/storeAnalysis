@@ -14,8 +14,8 @@ const instance = axios.create({
   baseURL: VUE_APP_API,
   timeout: 20000
 })
-const CancelToken = axios.CancelToken
-const source = CancelToken.source()
+// const CancelToken = axios.CancelToken
+// const source = CancelToken.source()
 // instance.defaults.withCredentials = true // 配置跨域，需要跨域时将此配置加上，同时需要后端配合开放跨域
 // 设置post请求默认 Content-Type
 instance.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
@@ -55,14 +55,17 @@ const removePending = (config) => {
     }
   }
 }
+
 // 添加请求拦截器
 instance.interceptors.request.use(
   config => {
-    config.cancelToken = source.token // 全局添加cancelToken
+    // config.cancelToken = source.token // 全局添加cancelToken
+    const user = JSON.parse(localStorage.getItem('userData'))
+    if (!user.staffId) router.push('/login')
     const serverData = {
       trackId: store.state.trackId || '',
       permissionsCode: store.state.permissionsCode || '',
-      user: store.state.userData.staffId || ''
+      user: user.staffId || ''
     }
     if (!config.data) config.data = {}
     // 服务器全局检索字段
@@ -105,10 +108,10 @@ instance.interceptors.response.use(response => {
     store.commit('SETSPINNING', false)
     customMessage({ type: 'warning', message: '用户身份信息过期，请重新登录' })
     // customMessage.warning('')
-    sessionStorage.removeItem('userData')
-    store.dispatch('resetUSerInfo')
+    localStorage.removeItem('userData')
+    store.dispatch('resetUserInfo')
     // 跳转登录
-    sessionStorage.clear()
+    // localStorage.clear()
     // router.push('./')
     setTimeout(() => {
       router.go(0)

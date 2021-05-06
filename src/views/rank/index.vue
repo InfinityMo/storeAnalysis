@@ -1,158 +1,142 @@
 <template>
   <div class="page">
-    <div class="table-wrap dept-wrap">
-      <el-tree :data="deptData"
-               :key="randomKey"
-               node-key="id"
-               default-expand-all
-               :expand-on-click-node="false">
-        <!-- <span class="custom-tree-node"
-              slot-scope="{ node, data }">
-          <span>{{ node.label }}</span>
-          <span>
-            <el-button type="text"
-                       size="mini"
-                       @click="() => append(data)">
-              Append
-            </el-button>
-            <el-button type="text"
-                       size="mini"
-                       @click="() => remove(node, data)">
-              Delete
-            </el-button>
-          </span>
-        </span> -->
-        <span class="custom-tree-node flex flex-item-center"
-              slot-scope="{ node, data }">
-          <span v-if="!data.isEdit"
-                @dblclick="dbClickHandle(node,data)">{{ node.label }}</span>
-          <span v-else
-                class="edit-input">
-            <el-input v-model="deptName"
-                      v-focus
-                      placeholder="请输入部门名称">
-            </el-input>
-            <el-link :disabled="!deptName"
-                     class="confirm-btn"
-                     :underline="false">确定</el-link>
-            <!-- <span class="confirm-btn" ></span> -->
-            <el-link class="cancel-btn"
-                     @click="cancel(node,data)"
-                     :underline="false">取消</el-link>
-            <!-- <span class="confirm-btn"
-                  ></span> -->
-          </span>
-          <span class="icon-operate"
-                :class="{'hide-operate':data.isEdit}">
-            <icon type="icon-add-green-14"
-                  :padding="[0,0,0,0]"
-                  @click.native="() => append(node, data)" />
-            <icon type="icon-delete-14"
-                  :padding="[0,0,0,10]"
-                  @click.native="() => remove(node, data)" />
-          </span>
-        </span>
-      </el-tree>
+    <div class="search-wrap">
+      <el-form class="search-form-inline"
+               :model="queryFrom"
+               ref="searchForm"
+               label-width="70px">
+        <el-col :span="8">
+          <el-form-item label="活动选择："
+                        prop="activityId">
+            <el-select v-model="queryFrom.activityId"
+                       filterable
+                       remote
+                       @change="activityChange"
+                       placeholder="请输入活动名称"
+                       :remote-method="remoteMethod">
+              <el-option v-for="item in searchSelectOption"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="日期选择："
+                        prop="activityId">
+            <el-date-picker v-model="queryFrom.date"
+                            :disabled="dateDisabled"
+                            :editable="false"
+                            :clearable="false"
+                            value-format="yyyy-MM-dd"
+                            format="yyyy-MM-dd"
+                            placeholder="请选择日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8"
+                class="search-btn">
+          <el-form-item>
+            <el-button @click="_resetForm('searchForm')">重置</el-button>
+            <el-button type="primary"
+                       @click="queryHandel">查询</el-button>
+          </el-form-item>
+        </el-col>
+      </el-form>
+    </div>
+    <div class="table-wrap">
+      <div class="flex-between-center table-info">
+        <h4>店铺列表</h4>
+      </div>
+      <standard-table :dataSource="tableData"
+                      :columns="columns"
+                      :pagination="PAGING"
+                      @tableChange="tableChange" />
     </div>
   </div>
 </template>
 <script>
+import { Base64 } from 'js-base64'
 import tableMixin from '@/mixins/dealTable'
-import { createUUID } from '@/common/utils/funcStore'
+import { columnsData } from './columnsData.js'
+import { queryForm } from './searchForm'
+import { shopInfoTableData } from '@/common/commonData/testDevData'
+
 export default {
   mixins: [tableMixin],
-
   data () {
     return {
-      deptName: '',
-      randomKey: 1,
-      deptData: [
-        {
-          id: '1',
-          label: '上海联恩',
-          children: [
-            {
-              id: '2',
-              label: '管理决策中心'
-            },
-            {
-              id: '3',
-              label: '数据开发部',
-              children: [
-                {
-                  id: '4',
-                  label: '开发组'
-                }, {
-                  id: '5',
-                  label: '数据组'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      queryFrom: JSON.parse(JSON.stringify(queryForm)),
+      columns: columnsData(this.$createElement, this),
+      tableData: shopInfoTableData,
+      allShopOption: [], // 所有店铺数据
+      searchSelectOption: [], // 搜索候选数据源
+      dateDisabled: true
     }
   },
-
   created () {
-    // this.getSelects()
-  },
-  mounted () {
+    this.getSelectData()
     // this.getTableData() // 获取列表数据
   },
+  mounted () {
+
+  },
   methods: {
-    dbClickHandle (node, data) {
-      this.cancelAllEdit()
-      data.isEdit = true
-      this.deptName = data.label
-      this.randomKey = createUUID()
-    },
-    cancelAllEdit () {
-      this.resetState(this.deptData)
-    },
-    resetState (arr) {
-      arr.forEach(i => {
-        if (i.children && i.children.length > 0) {
-          this.resetState(i.children)
-        }
-        delete i.isEdit
+    getSelectData () {
+      Promise.all([
+        this._fetchSelectData('3', { key: '0', value: 'started' })
+      ]).then(res => {
+        this.allShopOption = res[0]
       })
     },
-    cancel (node, data) {
-      // data.isEdit = false
-      delete data.isEdit
-      if (data.isAdd) {
-        this.remove(node, data)
+    getTableData () {
+      const searchForm = {
+        ...this.queryFrom,
+        pageNum: this.PAGING.pageNum,
+        pageSize: this.PAGING.pageSize
       }
-      this.randomKey = createUUID()
+      this.$request.post('/shopconfig/shoplist', searchForm).then(res => {
+        const resData = res.data.result || []
+        this.tableData = resData
+        this.PAGING.total = res.data.total
+      })
     },
-    append (node, data) {
-      let id = 10000
-      const newChild = { id: id++, label: 'ccc', isEdit: true, isAdd: true, children: [] }
-      if (!data.children) {
-        this.$set(data, 'children', [])
-      }
-      data.children.push(newChild)
-      this.randomKey = createUUID()
+    activityChange () {
+      debugger
     },
-
-    remove (node, data) {
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === data.id)
-      children.splice(index, 1)
-    }
-  },
-  directives: {
-    focus: {
-      inserted (el, binding, vnode) {
-        el.querySelector('input').focus()
+    remoteMethod (query) {
+      if (query !== '') {
+        this.searchSelectOption = this.allShopOption.filter(item => {
+          return (item.label.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+        })
+      } else {
+        this.searchSelectOption = []
       }
+    },
+    queryHandel () {
+      this._resetPageNum()
+      this.getTableData()
+    },
+    openNewtab (scoped) {
+      const { row } = scoped
+      const routeUrl = this.$router.resolve({
+        name: 'ShopData',
+        query: {
+          shopId: Base64.encode(row.shopId)
+        }
+      })
+      window.open(routeUrl.href, '_blank')
+    },
+    // 表格分页的变化
+    tableChange (changeParams) {
+      this.PAGING.pageSize = changeParams.pageSize
+      this.PAGING.pageNum = changeParams.pageNum
+      this.getTableData()
     }
   }
 }
 </script>
 <style lang="less" scoped>
 @import "~@/common/styles/page-table";
-@import "./index";
 </style>

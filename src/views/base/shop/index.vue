@@ -8,10 +8,6 @@
         <el-col :span="8">
           <el-form-item label="店铺名称："
                         prop="shopId">
-            <!-- <el-input v-model="queryFrom.title"
-                      placeholder="请输入店铺名称"
-                      autocomplete="off">
-            </el-input> -->
             <el-select v-model="queryFrom.shopId"
                        filterable
                        remote
@@ -139,7 +135,7 @@ export default {
   methods: {
     getSelectData () {
       Promise.all([
-        this._fetchSelectData('1', {})
+        this._fetchSelectData('1')
       ]).then(res => {
         this.allShopOption = res[0]
       })
@@ -150,7 +146,7 @@ export default {
         pageNum: this.PAGING.pageNum,
         pageSize: this.PAGING.pageSize
       }
-      delete searchForm.timeRange
+      // delete searchForm.timeRange
       this.$request.post('/shopconfig/shoplist', searchForm).then(res => {
         const resData = res.data.result || []
         this.tableData = resData

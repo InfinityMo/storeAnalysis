@@ -5,7 +5,7 @@ export const columnsData = (h, $this) => [{
   width: 180
 }, {
   dataKey: 'linkTitle',
-  title: '商品标题',
+  title: '商品名称',
   align: 'left',
   width: 450
 }, {

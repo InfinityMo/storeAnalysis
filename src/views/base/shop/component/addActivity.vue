@@ -82,7 +82,6 @@ export default {
     this.getNotFinishActivity()
   },
   mounted () {
-
   },
   methods: {
     getNotFinishActivity () {

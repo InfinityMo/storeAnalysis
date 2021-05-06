@@ -1,4 +1,4 @@
 export const queryForm = {
-  staffId: '', // 工号
-  staffName: '' // 姓名
+  activityId: '', // 店铺名称
+  date: ''
 }
