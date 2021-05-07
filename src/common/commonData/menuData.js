@@ -28,7 +28,7 @@ export default [
     pPath: '/rank',
     children: [{
       path: '/rank/rankEstimate',
-      title: '预计排行'
+      title: '预订排行'
     }]
   }
 ]

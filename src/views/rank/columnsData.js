@@ -1,7 +1,7 @@
 export const columnsData = (h, $this) => [{
   dataKey: 'rank',
   title: '排名',
-  width: 80,
+  width: 60,
   align: 'right'
 }, {
   dataKey: 'shopTitle',

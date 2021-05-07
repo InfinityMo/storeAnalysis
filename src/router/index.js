@@ -63,7 +63,7 @@ const routes = [
       {
         path: 'rankEstimate',
         name: 'RankEstimate',
-        meta: { title: '预计排行' },
+        meta: { title: '预订排行' },
         component: () => import('@/views/rank/index.vue')
       }
     ]
@@ -90,7 +90,7 @@ const routes = [
       {
         path: 'rankData',
         name: 'RankData',
-        meta: { title: '预计排行' },
+        meta: { title: '预订排行' },
         component: () => import('@/views/rank/component/data.vue')
       }
     ]
