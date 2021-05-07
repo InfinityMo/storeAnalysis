@@ -5,8 +5,8 @@
         <img src="@/assets/img/system/login-back.png">
         <div class="login-wrap">
           <div class="login-form">
-            <img class="title-img"
-                 src="@/assets/img/system/title.png">
+            <!-- <img class="title-img"
+                 src="@/assets/img/system/title.png"> -->
             <div class="login-title">
               <h5>账号登录</h5>
               <p>请使用管理员授权的账号密码登录</p>

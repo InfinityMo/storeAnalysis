@@ -6,7 +6,11 @@
              element-loading-text="加载中，请稍后..."
              element-loading-background="rgba(0, 0, 0, .6)">
       <Header class="tab-head">
-        <div slot="left">1111</div>
+        <div slot="left"
+             class="flex-item-center">
+          <img class="title"
+               src="@/assets/img/system/title2.svg">
+        </div>
       </Header>
       <router-view class="tab-content-wrap"></router-view>
       <copyright />
@@ -31,6 +35,6 @@ export default {
   width: 100%;
 }
 .tab-content-wrap {
-  padding: 71px 20px 0 20px;
+  padding: 66px 20px 0 20px;
 }
 </style>

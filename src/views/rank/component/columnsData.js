@@ -1,8 +1,4 @@
 export const columnsData = (h, $this) => [{
-  dataKey: 'dateTime',
-  title: '日期',
-  align: 'left'
-}, {
   dataKey: 'linkTitle',
   title: '商品名称',
   align: 'left',
@@ -38,11 +34,6 @@ export const columnsData = (h, $this) => [{
   align: 'right'
 },
 {
-  dataKey: 'soldCount',
-  title: '销量',
-  align: 'right'
-},
-{
   dataKey: 'categoryName',
   title: '类目',
   align: 'right'
@@ -51,5 +42,4 @@ export const columnsData = (h, $this) => [{
   dataKey: 'promotionCount',
   title: '活动数量',
   align: 'right'
-}
-]
+}]

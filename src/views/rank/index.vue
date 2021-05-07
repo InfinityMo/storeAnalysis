@@ -29,6 +29,7 @@
                             :disabled="dateDisabled"
                             :editable="false"
                             :clearable="false"
+                            :picker-options="datePickerOptions"
                             value-format="yyyy-MM-dd"
                             format="yyyy-MM-dd"
                             placeholder="请选择日期">
@@ -61,7 +62,7 @@ import { Base64 } from 'js-base64'
 import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
-import { shopInfoTableData } from '@/common/commonData/testDevData'
+import { shopRankTableData } from '@/common/commonData/testDevData'
 
 export default {
   mixins: [tableMixin],
@@ -69,10 +70,24 @@ export default {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
-      tableData: shopInfoTableData,
-      allShopOption: [], // 所有店铺数据
+      tableData: shopRankTableData,
+      allSelectOption: [], // 所有搜索数据
       searchSelectOption: [], // 搜索候选数据源
-      dateDisabled: true
+      dateDisabled: true,
+      datePickerStart: '',
+      datePickerEnd: '',
+      datePickerOptions: {
+        disabledDate: (time) => {
+          if (this.datePickerStart && this.datePickerEnd) {
+            return (time && time.getTime() > new Date(this.datePickerEnd).getTime()) || (time && time.getTime() < new Date(this.datePickerStart).getTime())
+          }
+        }
+      }
+    }
+  },
+  watch: {
+    'queryFrom.activityId' () {
+      String(this.queryFrom.activityId) ? this.dateDisabled = false : this.dateDisabled = true
     }
   },
   created () {
@@ -87,7 +102,7 @@ export default {
       Promise.all([
         this._fetchSelectData('3', { key: '0', value: 'started' })
       ]).then(res => {
-        this.allShopOption = res[0]
+        this.allSelectOption = res[0]
       })
     },
     getTableData () {
@@ -102,12 +117,19 @@ export default {
         this.PAGING.total = res.data.total
       })
     },
-    activityChange () {
-      debugger
+    activityChange (value) {
+      this.queryFrom.date = ''
+      const target = this.allSelectOption.filter(item => item.value === value)[0]
+      if (target) {
+        this.datePickerStart = target.start
+        this.datePickerEnd = target.end
+      } else {
+        this.dateDisabled = true
+      }
     },
     remoteMethod (query) {
       if (query !== '') {
-        this.searchSelectOption = this.allShopOption.filter(item => {
+        this.searchSelectOption = this.allSelectOption.filter(item => {
           return (item.label.toLowerCase().indexOf(query.toLowerCase()) >= 0)
         })
       } else {
@@ -121,7 +143,7 @@ export default {
     openNewtab (scoped) {
       const { row } = scoped
       const routeUrl = this.$router.resolve({
-        name: 'ShopData',
+        name: 'RankData',
         query: {
           shopId: Base64.encode(row.shopId)
         }

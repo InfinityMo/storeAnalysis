@@ -219,3 +219,12 @@ export const shopLinkTableData = [
     promotionCount: '10'
   }
 ]
+export const shopRankTableData = [{
+  shopId: '1',
+  rank: '1',
+  shopTitle: 'MAKE UP FOR EVER 玫珂菲官方.',
+  preOrderCount: '99,999,999',
+  preOrderValue: '999',
+  promotionCount: '100',
+  preLinkCount: '111'
+}]

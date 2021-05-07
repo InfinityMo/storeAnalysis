@@ -1,59 +1,14 @@
 <template>
   <div class="page">
-    <div class="search-wrap">
-      <el-form class="search-form-inline"
-               :model="queryFrom"
-               ref="searchForm"
-               label-width="70px">
-        <el-col :span="8">
-          <el-form-item label="选择日期："
-                        prop="timeRange">
-            <el-date-picker v-model="queryFrom.timeRange"
-                            :editable="false"
-                            :clearable="false"
-                            type="datetimerange"
-                            value-format="yyyy-MM-dd HH:mm"
-                            format="yyyy-MM-dd HH:mm"
-                            range-separator="~"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="商品名称："
-                        prop="linkId">
-            <el-select v-model="queryFrom.linkId"
-                       filterable
-                       remote
-                       placeholder="请输入商品名称"
-                       :remote-method="remoteMethod">
-              <el-option v-for="item in searchSelectOption"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8"
-                class="search-btn">
-          <el-form-item>
-            <el-button @click="_resetForm('searchForm')">重置</el-button>
-            <el-button type="primary"
-                       @click="queryHandel">查询</el-button>
-          </el-form-item>
-        </el-col>
-      </el-form>
-    </div>
     <div class="table-wrap">
       <div class="flex-item-center table-info shop-table-info">
         <img src="@/assets/img/custom/hrn.jpg" />
         <div class="shop flex-between">
           <h5>HR赫莲娜官方旗舰店</h5>
           <ol class="flex-item-center">
-            <li><label>有效链接：</label><span>62</span></li>
-            <li><label>店铺销量：</label><span>9,999,999</span></li>
+            <li><label>预售排名：</label><span>62</span></li>
+            <li><label>预售销量：</label><span>9,999,999</span></li>
+            <li><label>预售链接数：</label><span>9,999,999</span></li>
             <li><label>关联活动数：</label><span>2<em @click="openDraw({linkId:'',linkTitle:''},'1')">查看玩法</em></span></li>
           </ol>
         </div>
@@ -141,4 +96,7 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "~@/common/styles/page-table";
+.table-wrap {
+  margin-top: 0;
+}
 </style>

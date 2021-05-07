@@ -1,4 +1,9 @@
 export const columnsData = (h, $this) => [{
+  dataKey: 'rank',
+  title: '排名',
+  width: 80,
+  align: 'right'
+}, {
   dataKey: 'shopTitle',
   title: '店铺名称',
   align: 'left',
@@ -9,28 +14,21 @@ export const columnsData = (h, $this) => [{
     </div>)
   }
 }, {
-  dataKey: 'shopSoldCount',
-  title: '销量',
+  dataKey: 'preOrderCount',
+  title: '预售销量',
   align: 'right'
 },
 {
-  dataKey: 'linkCount',
-  title: '有效链接',
+  dataKey: 'preLinkCount',
+  title: '预售链接数',
+  align: 'right'
+}, {
+  dataKey: 'preOrderValue',
+  title: '预售销售额',
   align: 'right'
 },
 {
   dataKey: 'promotionCount',
   title: '关联活动数',
   align: 'right'
-},
-{
-  dataKey: 'isValid',
-  title: '监控状态',
-  width: 200,
-  align: 'right',
-  render: (h, scoped) => {
-    return (
-      scoped.row.isValid === '1' ? <span class="link-valid">已监控</span> : <span class="link-invalid">未监控</span>
-    )
-  }
 }]

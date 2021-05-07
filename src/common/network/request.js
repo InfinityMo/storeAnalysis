@@ -60,7 +60,7 @@ const removePending = (config) => {
 instance.interceptors.request.use(
   config => {
     // config.cancelToken = source.token // 全局添加cancelToken
-    const user = JSON.parse(localStorage.getItem('userData'))
+    const user = JSON.parse(localStorage.getItem('userData')) || {}
     if (!user.staffId) router.push('/login')
     const serverData = {
       trackId: store.state.trackId || '',

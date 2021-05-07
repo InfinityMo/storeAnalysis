@@ -69,8 +69,8 @@ const routes = [
     ]
   },
   {
-    path: '/tab',
-    name: 'Tab',
+    path: '/shopTab',
+    name: 'ShopTab',
     meta: { title: '' },
     component: tabLayout,
     children: [
@@ -81,8 +81,20 @@ const routes = [
         component: () => import('@/views/shop/component/data.vue')
       }
     ]
-  },
-  {
+  }, {
+    path: '/rankTab',
+    name: 'RankTab',
+    meta: { title: '' },
+    component: tabLayout,
+    children: [
+      {
+        path: 'rankData',
+        name: 'RankData',
+        meta: { title: '预计排行' },
+        component: () => import('@/views/rank/component/data.vue')
+      }
+    ]
+  }, {
     path: '/401',
     name: 'forbidden',
     component: () => import('@/views/401/index.vue')

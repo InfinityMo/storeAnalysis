@@ -3,39 +3,9 @@
     <!-- logo -->
     <div class="flex-between-center logo-wrap">
       <img class="title"
-           src="@/assets/img/system/title.png">
+           src="@/assets/img/system/title.svg">
     </div>
     <!-- 菜单区 -->
-    <!-- <el-menu :unique-opened="true"
-             :router="true"
-             :default-active="defaultActive"
-             text-color="#fff"
-             class="customer-menu">
-      <div v-for="(menu,index) in menus"
-           :key="index">
-        <div v-if="menu.children">
-          <el-submenu :index="String(menu.pId)">
-            <template slot="title">
-              <i class="ststem-icon"
-                 :class="menu.icon"></i>
-              <span>{{menu.pTitle}}</span>
-            </template>
-            <el-menu-item v-for="item in menu.children"
-                          :index="item.path"
-                          :key="item.path"
-                          @click.native="menuClick(item.path)">{{item.title}}</el-menu-item>
-          </el-submenu>
-        </div>
-        <div v-else>
-          <el-menu-item :index="String(menu.path)"
-                        @click.native="menuClick(menu.pPath)">
-            <i class="ststem-icon"
-               :class="menu.icon"></i>
-            <span slot="title">{{menu.pTitle}}</span>
-          </el-menu-item>
-        </div>
-      </div>
-    </el-menu> -->
     <el-menu class="customer-menu"
              :router="true"
              :default-active="defaultActive"
@@ -108,7 +78,7 @@ export default {
   top: 0;
   width: 200px;
   height: 100vh;
-  background-color: #252836;
+  background-color: #001433;
   overflow: hidden;
   box-sizing: border-box;
   z-index: 1;
@@ -128,7 +98,7 @@ export default {
   }
 
   .customer-menu {
-    background-color: #252836;
+    background-color: #001433;
   }
   .el-menu {
     width: 100%;
