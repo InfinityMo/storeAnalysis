@@ -11,9 +11,10 @@
             <el-date-picker v-model="queryFrom.timeRange"
                             :editable="false"
                             :clearable="false"
-                            type="datetimerange"
-                            value-format="yyyy-MM-dd HH:mm"
-                            format="yyyy-MM-dd HH:mm"
+                            type="daterange"
+                            value-format="yyyy-MM-dd"
+                            format="yyyy-MM-dd"
+                            :picker-options="pickerOptions"
                             range-separator="~"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
@@ -48,13 +49,14 @@
     </div>
     <div class="table-wrap">
       <div class="flex-item-center table-info shop-table-info">
-        <img src="@/assets/img/custom/hrn.jpg" />
+        <img :src="shopImg" />
         <div class="shop flex-between">
-          <h5>HR赫莲娜官方旗舰店</h5>
+          <h5>{{shopInfo.shopTitle}}</h5>
           <ol class="flex-item-center">
-            <li><label>有效链接：</label><span>62</span></li>
-            <li><label>店铺销量：</label><span>9,999,999</span></li>
-            <li><label>关联活动数：</label><span>2<em @click="openDraw({linkId:'',linkTitle:''},'1')">查看玩法</em></span></li>
+            <li><label>有效链接：</label><span>{{shopInfo.linkNum}}</span></li>
+            <li><label>店铺销量：</label><span>{{shopInfo.shopSoldCount}}</span></li>
+            <li><label>关联活动数：</label><span>{{shopInfo.promotionCount}}<em v-if="shopInfo.promotionCount>0"
+                    @click="openDraw({linkId:shopId,linkTitle:shopInfo.shopTitle},'1')">查看玩法</em></span></li>
           </ol>
         </div>
       </div>
@@ -67,42 +69,88 @@
             drawerWidth="856px"
             :drawerShow="drawerShow"
             @drawerClosed="drawerClosed">
-      <shopDetails :dataId="dataId"
-                   :dataType="dataType" />
+      <drawerDetails slot="content"
+                     :dataId="dataId"
+                     :dataType="dataType" />
     </Drawer>
   </div>
 </template>
 <script>
+import { Base64 } from 'js-base64'
 import { queryForm } from './searchForm'
 import { columnsData } from './columnsData.js'
-import { shopLinkTableData } from '@/common/commonData/testDevData'
 import tableMixin from '@/mixins/dealTable'
-import shopDetails from './shopDetails'
+import { getLastSevenDay } from '@/common/utils/timeCalc'
+import drawerDetails from './drawerDetails'
 export default {
   mixins: [tableMixin],
-  components: { shopDetails },
+  components: { drawerDetails },
   data () {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
-      tableData: shopLinkTableData,
+      tableData: [],
       searchSelectOption: [],
       allLinkOption: [],
+      shopId: Base64.decode(this.$route.query.shopId) || '',
+      shopInfo: {},
+      shopImg: '',
       drawerTitle: '',
       drawerShow: false,
       dataId: '',
       dataType: '1' // 1是店铺，2是链接
     }
   },
+  created () {
+    this.setDefaultTime()
+    this.getShopImg()
+    this.getSelectData()
+    this.getShopInfo()
+    this.getTableData()
+  },
   methods: {
+    getShopImg () {
+      this.$request.post('/shopexpress/shopicon', { shopId: this.shopId }).then(res => {
+        this.shopImg = res.data.iconLink
+      })
+    },
+    setDefaultTime () {
+      getLastSevenDay().forEach(item => {
+        this.queryFrom.timeRange.push(item)
+      })
+    },
+    getSelectData () {
+      Promise.all([
+        this._fetchSelectData('2')
+      ]).then(res => {
+        this.allLinkOption = res[0]
+      })
+    },
+    getShopInfo () {
+      const searchForm = {
+        shopId: this.shopId,
+        start: '',
+        end: ''
+        // start: this.queryFrom.timeRange[0] || '',
+        // end: this.queryFrom.timeRange[1] || ''
+      }
+      this.$request.post('/shopexpress/expresstitle', searchForm).then(res => {
+        this.shopInfo = {
+          ...res.data
+        }
+      })
+    },
     getTableData () {
       const searchForm = {
         ...this.queryFrom,
+        shopId: this.shopId,
+        start: this.queryFrom.timeRange[0] || '',
+        end: this.queryFrom.timeRange[1] || '',
         pageNum: this.PAGING.pageNum,
         pageSize: this.PAGING.pageSize
       }
       delete searchForm.timeRange
-      this.$request.post('/shopconfig/shoplist', searchForm).then(res => {
+      this.$request.post('/linkexpress/shoplink', searchForm).then(res => {
         const resData = res.data.result || []
         this.tableData = resData
         this.PAGING.total = res.data.total

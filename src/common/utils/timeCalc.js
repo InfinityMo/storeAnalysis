@@ -1,5 +1,10 @@
 // Tip:所有结束时间均为当前时间前一天
 import { dateFormat } from './funcStore'
+// 昨天
+export function getYesterday () {
+  var yesterday = dateFormat('YYYY-mm-dd', new Date(new Date().getTime() - 24 * 60 * 60 * 1000))
+  return yesterday
+}
 // 最近30天
 export function getLastThirtyDay () {
   var nowDate = new Date()
@@ -46,7 +51,9 @@ export function getLastSevenDay () {
   } else {
     dateObj.last = year + '-' + month + '-' + (day - 6)
   }
-  return [dateObj.last, dateObj.now]
+  var dateLast = new Date(dateObj.last)
+  var dateNow = new Date(dateObj.now)
+  return [dateFormat('YYYY-mm-dd', dateLast), dateFormat('YYYY-mm-dd', dateNow)]
 }
 // 最近一年
 export function recentYear () {

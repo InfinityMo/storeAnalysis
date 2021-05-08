@@ -7,7 +7,7 @@
                label-width="70px">
         <el-col :span="8">
           <el-form-item label="店铺名称："
-                        prop="title">
+                        prop="shopId">
             <el-select v-model="queryFrom.shopId"
                        filterable
                        remote
@@ -47,7 +47,6 @@ import { Base64 } from 'js-base64'
 import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
-import { shopInfoTableData } from '@/common/commonData/testDevData'
 
 export default {
   mixins: [tableMixin],
@@ -55,14 +54,14 @@ export default {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
-      tableData: shopInfoTableData,
+      tableData: [],
       allShopOption: [], // 所有店铺数据
       searchSelectOption: [] // 搜索候选数据源
     }
   },
   created () {
     this.getSelectData()
-    // this.getTableData() // 获取列表数据
+    this.getTableData() // 获取列表数据
   },
   mounted () {
 
@@ -81,7 +80,7 @@ export default {
         pageNum: this.PAGING.pageNum,
         pageSize: this.PAGING.pageSize
       }
-      this.$request.post('/shopconfig/shoplist', searchForm).then(res => {
+      this.$request.post('/shopexpress/shoplist', searchForm).then(res => {
         const resData = res.data.result || []
         this.tableData = resData
         this.PAGING.total = res.data.total

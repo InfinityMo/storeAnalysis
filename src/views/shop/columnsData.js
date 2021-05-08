@@ -30,7 +30,7 @@ export const columnsData = (h, $this) => [{
   align: 'right',
   render: (h, scoped) => {
     return (
-      scoped.row.isValid === '1' ? <span class="link-valid">已监控</span> : <span class="link-invalid">未监控</span>
+      scoped.row.isValid ? <span class="link-valid">已监控</span> : <span class="link-invalid">未监控</span>
     )
   }
 }]

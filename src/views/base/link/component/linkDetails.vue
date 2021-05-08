@@ -8,7 +8,7 @@
               @click="openShop(detailInfo.linkName)">{{detailInfo.linkName}}</span></p>
     </div>
     <div class="details-item"
-         v-show="detailInfo.currentActivityList&&detailInfo.currentActivityList.length>0">
+         v-if="detailInfo.currentActivityList&&detailInfo.currentActivityList.length>0">
       <h4>当前活动信息</h4>
       <ul v-for="(item,index) in detailInfo.currentActivityList"
           :key="index">
@@ -19,7 +19,7 @@
       </ul>
     </div>
     <div class="details-item"
-         v-show="detailInfo.futureActivityList&&detailInfo.futureActivityList.length>0">
+         v-if="detailInfo.futureActivityList&&detailInfo.futureActivityList.length>0">
       <h4>未来活动信息</h4>
       <ul v-for="(item,index) in detailInfo.futureActivityList"
           :key="index">
@@ -30,7 +30,7 @@
       </ul>
     </div>
     <div class="details-item"
-         v-show="detailInfo.historyActivityList&&detailInfo.historyActivityList.length>0">
+         v-if="detailInfo.historyActivityList&&detailInfo.historyActivityList.length>0">
       <h4>历史活动信息</h4>
       <ul v-for="(item,index) in detailInfo.historyActivityList"
           :key="index">

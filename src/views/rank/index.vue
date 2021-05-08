@@ -24,7 +24,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="日期选择："
-                        prop="activityId">
+                        prop="date">
             <el-date-picker v-model="queryFrom.date"
                             :disabled="dateDisabled"
                             :editable="false"
@@ -62,18 +62,18 @@ import { Base64 } from 'js-base64'
 import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
-import { shopRankTableData } from '@/common/commonData/testDevData'
-
+import { getYesterday } from '../../common/utils/timeCalc'
 export default {
   mixins: [tableMixin],
   data () {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
-      tableData: shopRankTableData,
+      tableData: [],
       allSelectOption: [], // 所有搜索数据
       searchSelectOption: [], // 搜索候选数据源
       dateDisabled: true,
+      queryDate: getYesterday(),
       datePickerStart: '',
       datePickerEnd: '',
       datePickerOptions: {
@@ -92,7 +92,7 @@ export default {
   },
   created () {
     this.getSelectData()
-    // this.getTableData() // 获取列表数据
+    this.getTableData() // 获取列表数据
   },
   mounted () {
 
@@ -111,10 +111,13 @@ export default {
         pageNum: this.PAGING.pageNum,
         pageSize: this.PAGING.pageSize
       }
-      this.$request.post('/shopconfig/shoplist', searchForm).then(res => {
-        const resData = res.data.result || []
-        this.tableData = resData
-        this.PAGING.total = res.data.total
+      return new Promise((resolve) => {
+        this.$request.post('/rankexpress/ranklist', searchForm).then(res => {
+          res.data ? resolve(true) : resolve(false)
+          const resData = res.data.result || []
+          this.tableData = resData
+          this.PAGING.total = res.data.total
+        })
       })
     },
     activityChange (value) {
@@ -138,14 +141,18 @@ export default {
     },
     queryHandel () {
       this._resetPageNum()
-      this.getTableData()
+      this.getTableData().then(res => {
+        this.queryDate = res ? this.queryFrom.date : getYesterday()
+      })
     },
     openNewtab (scoped) {
       const { row } = scoped
       const routeUrl = this.$router.resolve({
         name: 'RankData',
         query: {
-          shopId: Base64.encode(row.shopId)
+          shopId: Base64.encode(row.shopId),
+          rank: Base64.encode(row.rank),
+          date: Base64.encode(this.queryDate)
         }
       })
       window.open(routeUrl.href, '_blank')
