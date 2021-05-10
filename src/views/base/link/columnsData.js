@@ -26,7 +26,7 @@ export const columnsData = (h, $this) => [{
   width: 80,
   render: (h, scoped) => {
     return (
-      scoped.row.isValid === 1 ? <span class="link-valid">在售</span> : <span class="link-invalid">已下架</span>
+      scoped.row.isValid === '1' ? <span class="link-valid">在售</span> : <span class="link-invalid">已下架</span>
     )
   }
 },

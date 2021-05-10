@@ -9,8 +9,7 @@
             <li><label>预售排名：</label><span>{{shopInfo.rank}}</span></li>
             <li><label>预售销量：</label><span>{{shopInfo.preOrderCount}}</span></li>
             <li><label>预售链接数：</label><span>{{shopInfo.preLinkCount}}</span></li>
-            <li><label>关联活动数：</label><span>{{shopInfo.promotionCount}}<em v-if="shopInfo.promotionCount>0"
-                    @click="openDraw({linkId:shopId,linkTitle:shopInfo.shopTitle},'1')">查看玩法</em></span></li>
+            <li><label>关联活动数：</label><span>{{shopInfo.promotionCount}}<em @click="openDraw({linkId:shopId,linkTitle:shopInfo.shopTitle},'1')">查看玩法</em></span></li>
           </ol>
         </div>
       </div>
@@ -23,9 +22,11 @@
             drawerWidth="856px"
             :drawerShow="drawerShow"
             @drawerClosed="drawerClosed">
-      <shopDetails slot="content"
-                   :dataId="dataId"
-                   :dataType="dataType" />
+      <drawerDetails slot="content"
+                     v-if="drawerShow"
+                     :dataId="dataId"
+                     :dataTimeRange="dataTimeRange"
+                     :dataType="dataType" />
     </Drawer>
   </div>
 </template>
@@ -33,10 +34,10 @@
 import { Base64 } from 'js-base64'
 import { columnsData } from './columnsData.js'
 import tableMixin from '@/mixins/dealTable'
-import shopDetails from './shopDetails'
+import drawerDetails from '@/components/drawerModel/drawerDetails'
 export default {
   mixins: [tableMixin],
-  components: { shopDetails },
+  components: { drawerDetails },
   data () {
     return {
       columns: columnsData(this.$createElement, this),
@@ -47,11 +48,11 @@ export default {
       drawerTitle: '',
       drawerShow: false,
       dataId: '',
-      dataType: '1' // 1是店铺，2是链接
+      dataType: '1', // 1是店铺，2是链接
+      dataTimeRange: [Base64.decode(this.$route.query.date), Base64.decode(this.$route.query.date)]
     }
   },
   created () {
-    console.log(this.shopInfo)
     this.getShopImg()
     this.getShopInfo()
     this.getTableData()

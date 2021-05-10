@@ -55,8 +55,7 @@
           <ol class="flex-item-center">
             <li><label>有效链接：</label><span>{{shopInfo.linkNum}}</span></li>
             <li><label>店铺销量：</label><span>{{shopInfo.shopSoldCount}}</span></li>
-            <li><label>关联活动数：</label><span>{{shopInfo.promotionCount}}<em v-if="shopInfo.promotionCount>0"
-                    @click="openDraw({linkId:shopId,linkTitle:shopInfo.shopTitle},'1')">查看玩法</em></span></li>
+            <li><label>关联活动数：</label><span>{{shopInfo.promotionCount}}<em @click="openDraw({linkId:shopId,linkTitle:shopInfo.shopTitle},'1')">查看玩法</em></span></li>
           </ol>
         </div>
       </div>
@@ -70,7 +69,9 @@
             :drawerShow="drawerShow"
             @drawerClosed="drawerClosed">
       <drawerDetails slot="content"
+                     v-if="drawerShow"
                      :dataId="dataId"
+                     :dataTimeRange="dataTimeRange"
                      :dataType="dataType" />
     </Drawer>
   </div>
@@ -81,7 +82,7 @@ import { queryForm } from './searchForm'
 import { columnsData } from './columnsData.js'
 import tableMixin from '@/mixins/dealTable'
 import { getLastSevenDay } from '@/common/utils/timeCalc'
-import drawerDetails from './drawerDetails'
+import drawerDetails from '@/components/drawerModel/drawerDetails'
 export default {
   mixins: [tableMixin],
   components: { drawerDetails },
@@ -98,6 +99,7 @@ export default {
       drawerTitle: '',
       drawerShow: false,
       dataId: '',
+      dataTimeRange: [], // 活动查询时间范围
       dataType: '1' // 1是店铺，2是链接
     }
   },
@@ -129,12 +131,14 @@ export default {
     getShopInfo () {
       const searchForm = {
         shopId: this.shopId,
-        start: '',
-        end: ''
-        // start: this.queryFrom.timeRange[0] || '',
-        // end: this.queryFrom.timeRange[1] || ''
+        start: this.queryFrom.timeRange[0] || '',
+        end: this.queryFrom.timeRange[1] || ''
       }
       this.$request.post('/shopexpress/expresstitle', searchForm).then(res => {
+        this.dataTimeRange = []
+        this.queryFrom.timeRange.forEach(item => {
+          this.dataTimeRange.push(item)
+        })
         this.shopInfo = {
           ...res.data
         }
@@ -158,6 +162,7 @@ export default {
     },
     queryHandel () {
       this._resetPageNum()
+      this.getShopInfo()
       this.getTableData()
     },
     openDraw (row, type) {

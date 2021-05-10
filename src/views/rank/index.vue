@@ -124,6 +124,7 @@ export default {
       this.queryFrom.date = ''
       const target = this.allSelectOption.filter(item => item.value === value)[0]
       if (target) {
+        this.queryFrom.date = target.end
         this.datePickerStart = target.start
         this.datePickerEnd = target.end
       } else {
