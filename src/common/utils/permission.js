@@ -19,8 +19,10 @@ router.beforeEach((to, from, next) => {
     next()
     return
   }
-  const userData = JSON.parse(localStorage.getItem('userData')) || {}
-  if (Object.keys(userData).length > 0) {
+  // const userData = JSON.parse(localStorage.getItem('userData')) || {}
+  const userLoaclData = JSON.parse(localStorage.getItem(`${store.getters.getTrackId}userData`)) || {}
+  const userSessionData = JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)) || {}
+  if (Object.keys(userSessionData).length > 0 && Object.keys(userLoaclData).length > 0) {
     next()
   } else {
     next('/login')

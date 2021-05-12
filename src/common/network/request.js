@@ -60,7 +60,8 @@ const removePending = (config) => {
 instance.interceptors.request.use(
   config => {
     // config.cancelToken = source.token // 全局添加cancelToken
-    const user = JSON.parse(localStorage.getItem('userData')) || {}
+    // const user = JSON.parse(localStorage.getItem('userData')) || {}
+    const user = JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)) || {}
     if (!user.staffId) router.push('/login')
     const serverData = {
       trackId: store.state.trackId || '',
@@ -108,7 +109,9 @@ instance.interceptors.response.use(response => {
     store.commit('SETSPINNING', false)
     customMessage({ type: 'warning', message: '用户身份信息过期，请重新登录' })
     // customMessage.warning('')
-    localStorage.removeItem('userData')
+    localStorage.removeItem(`${store.getters.getTrackId}userData`)
+    // localStorage.clear()
+    sessionStorage.removeItem(`${store.getters.getTrackId}userData`)
     store.dispatch('resetUserInfo')
     // 跳转登录
     // localStorage.clear()

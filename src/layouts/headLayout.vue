@@ -41,7 +41,7 @@
     <el-dialog title="更改密码"
                custom-class="edit-pwd"
                :visible.sync="pwdShow"
-               :close-on-click-modal="true"
+               :close-on-click-modal="false"
                :destroy-on-close="true"
                :lock-scroll="true"
                :append-to-body="true"
@@ -89,6 +89,7 @@
 <script>
 
 import { Base64 } from 'js-base64'
+import store from '@/store'
 export default {
   data () {
     var checkPwd = (rule, value, callback) => {
@@ -152,7 +153,8 @@ export default {
   },
   computed: {
     userName () {
-      return JSON.parse(localStorage.getItem('userData')).staffId || ''
+      // return JSON.parse(localStorage.getItem('userData')).staffId || ''
+      return JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)).staffId || ''
     }
   },
   methods: {
@@ -186,14 +188,15 @@ export default {
       this.$refs.editForm.validate((valid) => {
         if (valid) {
           const pwdData = {
-            staffId: this.userData.staffId,
+            staffId: this.userName,
             oripassword: Base64.encode(this.editForm.oripassword),
             newpassword: Base64.encode(this.editForm.newpassword)
           }
-          this.$request.post('/changepassword', pwdData).then(res => {
+          this.$request.post('/interfacecommon/changepassword', pwdData).then(res => {
             if (res.errorCode === 1) {
               this.$message.success('密码修改成功')
-              localStorage.removeItem('userData')
+              localStorage.removeItem(`${store.getters.getTrackId}userData`)
+              sessionStorage.removeItem(`${store.getters.getTrackId}userData`)
               this.$router.push('/login')
             }
           })
@@ -203,10 +206,12 @@ export default {
       })
     },
     logout () {
-      localStorage.removeItem('userData')
+      localStorage.removeItem(`${store.getters.getTrackId}userData`)
+      sessionStorage.removeItem(`${store.getters.getTrackId}userData`)
+      localStorage.removeItem('system')
+      sessionStorage.removeItem('system')
       this.$store.dispatch('resetUserInfo')
       // 跳转登录
-      // localStorage.clear()
       this.$router.go(0)
     }
   }

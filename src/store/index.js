@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { createUUID } from '@/common/utils/funcStore'
-import menuData from '@/common/commonData/menuData.js'
+// import menuData from '@/common/commonData/menuData.js'
 import commonModule from './modules/common'
+import axios from '@/common/network/request'
+import { Message } from 'element-ui'
 import createVuexAlong from 'vuex-along'
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -20,7 +22,8 @@ export default new Vuex.Store({
       return state.slideMenu
     },
     // activityLevels: state => state.activityLevels,
-    getBreadCurmb: state => state.breadCurmb
+    getBreadCurmb: state => state.breadCurmb,
+    getTrackId: state => state.trackId
     // getUserData (state) {
     //   const userData = state.userData || {}
     //   if (Object.keys(userData).length <= 0) {
@@ -50,6 +53,7 @@ export default new Vuex.Store({
     RESETHEADERDATA (state) {
       state.trackId = ''
       state.permissionsCode = ''
+      state.slideMenu = []
       state.userData = {}
       state.permissionsCode = ''
     }
@@ -57,31 +61,30 @@ export default new Vuex.Store({
   // 配置异步提交状态
   actions: {
     getUserInfo ({ commit }, form) {
-      localStorage.removeItem('userData')
+      localStorage.removeItem(`${this.getters.getTrackId}userData`)
+      sessionStorage.removeItem(`${this.getters.getTrackId}userData`)
       commit('RESETHEADERDATA')
       commit('SAVETRACKID', createUUID())
       return new Promise((resolve, reject) => {
-        localStorage.setItem('userData', JSON.stringify({
-          staffId: 'TL-1563'
-        }))
-        commit('SAVEPERMISSIONSCODE', '11111')
-        commit('SETBASICMUTATION', { payload: menuData, storeName: 'slideMenu' })
-        resolve(true)
-        // axios.post('/login', form).then(res => {
-        //   const { data } = res
-        //   if (res.errorCode === 1) {
-        //     // 将用户信息保存在session中
-        //     sessionStorage.setItem('userData', JSON.stringify({
-        //       staffId: data.userName
-        //     }))
-        //     commit('SAVEPERMISSIONSCODE', data.permissionsCode)
-        //     resolve(true)
-        //   } else if (res.errorCode === 1000) {
-        //     Message.warning('用户名或密码有误，请核对用户名或密码')
-        //   } else if (res.errorCode === 1001) {
-        //     Message.error('当前账号无访问权限，请联系管理员')
-        //   }
-        // })
+        axios.post('/interfacecommon/login', form).then(res => {
+          const { data } = res
+          if (res.errorCode === 1) {
+            // 将用户信息保存在session中
+            sessionStorage.setItem(`${this.getters.getTrackId}userData`, JSON.stringify({
+              staffId: data.userName
+            }))
+            localStorage.setItem(`${this.getters.getTrackId}userData`, JSON.stringify({
+              staffId: data.userName
+            }))
+            commit('SETBASICMUTATION', { payload: data.menuPermissions, storeName: 'slideMenu' })
+            commit('SAVEPERMISSIONSCODE', data.permissionsCode)
+            resolve(true)
+          } else if (res.errorCode === 1000) {
+            Message.warning('用户名或密码有误，请核对用户名或密码')
+          } else if (res.errorCode === 1001) {
+            Message.error('当前账号无访问权限，请联系管理员')
+          }
+        })
       })
     },
     // 重置vuex
@@ -96,9 +99,17 @@ export default new Vuex.Store({
   plugins: [
     createVuexAlong({
       name: 'system',
-      local: false,
+      local: {
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'activityLevels', 'spinning'],
+        isFilter: true
+      },
       session: {
-        list: ['trackId', 'permissionsCode']
+        // slideMenu: [],
+        // breadCurmb: [],
+        // trackId: '',
+        // permissionsCode: '',
+        // activityLevels: []
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'activityLevels']
       }
     })
   ]

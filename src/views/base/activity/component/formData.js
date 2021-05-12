@@ -9,13 +9,17 @@ export const modalForm = {
 
 export const modalFormRules = {
   activityName: [
-    { required: true, message: '请输入活动名称', trigger: 'blur' }
+    { required: true, message: '请输入活动名称', trigger: 'blur' },
+    { pattern: /^\S(.*\S)?$/, message: '请输入正确的活动名称', trigger: 'blur' }
   ],
   timeRange: [
     { required: true, message: '请选择活动时间', trigger: 'change' }
   ],
   level: [
     { required: true, message: '请选择活动等级', trigger: 'change' }
+  ],
+  activityMemo: [
+    { pattern: /^\S(.*\S)?$/, message: '请输入正确的备注', trigger: 'blur' }
   ]
 }
 
@@ -25,8 +29,10 @@ export const editAitivityForm = {
 }
 
 export const editAitivityFormRules = {
-
   activityId: [
     { required: true, message: '请选择活动', trigger: 'change' }
+  ],
+  rules: [
+    { pattern: /^\S(.*\S)?$/, message: '请输入正确的活动玩法', trigger: 'blur' }
   ]
 }
