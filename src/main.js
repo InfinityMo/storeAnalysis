@@ -6,6 +6,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/common/utils/globalRegiste'
 import '@/common/utils/globalMount'
+import '@/common/directive/imgError'
+
 // import '@/common/components/table/standardTable'
 Vue.use(ElementUI)
 Vue.config.productionTip = false

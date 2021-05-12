@@ -80,16 +80,17 @@
             :dialogShow="dialogShow"
             @dialogCancel="dialogCancel"
             @dialogConfirm="dialogConfirm">
-      <addEdit slot="content"
+      <addEdit v-if="dialogShow"
+               slot="content"
                ref="addContent"
-               v-if="dialogShow"
                :addEditId="addEditId" />
     </Dialog>
     <Drawer :drawerTitle="drawerTitle"
             drawerWidth="856px"
             :drawerShow="drawerShow"
             @drawerClosed="drawerClosed">
-      <activityDetails slot="content"
+      <activityDetails v-if="drawerShow"
+                       slot="content"
                        :addEditId="addEditId" />
     </Drawer>
   </div>

@@ -49,7 +49,9 @@
     </div>
     <div class="table-wrap">
       <div class="flex-item-center table-info shop-table-info">
-        <img :src="shopImg" />
+        <img :src="shopImg"
+             alt="店铺icon"
+             v-imgError />
         <div class="shop flex-between">
           <h5>{{shopInfo.shopTitle}}</h5>
           <ol class="flex-item-center">

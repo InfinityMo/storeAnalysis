@@ -14,11 +14,12 @@
       <div v-for="(menu,index) in menus"
            :key="index">
         <div v-if="menu.children">
-          <el-submenu :index="menu.pId">
+          <el-submenu :index="menu.id">
             <template slot="title">
-              <icon class="ststem-icon"
+              <icon v-if="menu.icon"
+                    class="ststem-icon"
                     :type="menu.icon" />
-              <span>{{menu.pTitle}}</span>
+              <span>{{menu.title}}</span>
             </template>
             <el-menu-item v-for="(child,index) in menu.children"
                           :index="child.path"
@@ -26,10 +27,11 @@
           </el-submenu>
         </div>
         <div v-else>
-          <el-menu-item :index="menu.pPath">
-            <icon class="ststem-icon"
+          <el-menu-item :index="menu.path">
+            <icon v-if="menu.icon"
+                  class="ststem-icon"
                   :type="menu.icon" />
-            <span slot="title">{{menu.pTitle}}</span>
+            <span slot="title">{{menu.title}}</span>
           </el-menu-item>
         </div>
       </div>

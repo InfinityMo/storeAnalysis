@@ -1,7 +1,7 @@
 <template>
   <div class="details-drawer-wrap">
-    <div class="details-item">
-      <ul>
+    <div class="details-item no-padding">
+      <ul class="no-padding">
         <li class="flex"><label>活动名称：</label><span>{{detailInfo.activityName}}</span></li>
         <li class="flex"><label>活动等级：</label><span>{{detailInfo.levelName}}</span></li>
         <li class="flex"><label>活动时间：</label><span>{{detailInfo.start}} ~ {{detailInfo.end}}</span></li>
@@ -19,13 +19,13 @@ export default {
       required: true
     }
   },
-  watch: {
-    addEditId (val, oldval) {
-      if (this.addEditId) {
-        this.getDetailInfo()
-      }
-    }
-  },
+  // watch: {
+  //   addEditId (val, oldval) {
+  //     if (this.addEditId) {
+  //       this.getDetailInfo()
+  //     }
+  //   }
+  // },
   data () {
     return {
       detailInfo: {}

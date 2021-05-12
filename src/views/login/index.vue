@@ -2,11 +2,13 @@
   <div class="login">
     <div class="login-content flex-center flex-item-center">
       <div class="login-back-wrap">
-        <img src="@/assets/img/system/login-back.png">
         <div class="login-wrap">
           <div class="login-form">
-            <!-- <img class="title-img"
-                 src="@/assets/img/system/title.png"> -->
+            <p class="flex-item-center flex-justify-center">
+              <img class="title-img"
+                   src="@/assets/img/system/title.png">
+            </p>
+            <p class="sub-title">店铺数据查看、留存、分析系统</p>
             <div class="login-title">
               <h5>账号登录</h5>
               <p>请使用管理员授权的账号密码登录</p>
@@ -15,7 +17,7 @@
                      :rules="loginRules"
                      ref="loginForm">
               <el-form-item prop="staffId"
-                            class="form-item first-item">
+                            class="form-item">
                 <el-input class="reset-login-user"
                           :class="{'focus-login-user':tlShow}"
                           @focus="tlShow=true"
@@ -23,7 +25,7 @@
                           placeholder="请输入用户名"
                           v-model="loginForm.staffId">
                   <span slot="prefix">
-                    <i class="user-login-userName"></i>
+                    <icon type="icon-user-13" />
                     <label class="tl"
                            v-show="tlShow">TL -</label>
                   </span>
@@ -35,14 +37,15 @@
                           v-model="loginForm.password"
                           show-password
                           @keyup.enter.native="login">
-                  <i slot="prefix"
-                     class="user-login-password"></i>
+                  <span slot="prefix">
+                    <icon type="icon-pwd-13" />
+                  </span>
                 </el-input>
               </el-form-item>
-              <el-form-item class="form-item">
+              <el-form-item class="form-item form-item-btn">
                 <el-button class="login-btn"
                            type="primary"
-                           @click="login">登录</el-button>
+                           @click="login">登 录</el-button>
               </el-form-item>
             </el-form>
             <div class="bottom-tip flex-item-center">

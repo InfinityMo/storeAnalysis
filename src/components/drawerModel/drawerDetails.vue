@@ -2,7 +2,7 @@
   <div class="details-drawer-wrap"
        :class="{'flex-item-center flex-justify-center':nodata}">
     <div v-if="!nodata">
-      <div class="details-item"
+      <div class="details-item no-padding"
            v-if="detailInfo.duringActivityList&&detailInfo.duringActivityList.length>0">
         <h4>{{dataTimeRange[0]}} ~ {{dataTimeRange[1]}} 活动</h4>
         <ul v-for="(item,index) in detailInfo.duringActivityList"
@@ -22,7 +22,7 @@
           <li class="flex"><label>活动玩法：</label><span>{{item.rules}}</span></li>
         </ul>
       </div>
-      <div class="details-item "
+      <div class="details-item border-top"
            v-if="(detailInfo.laterActivityList&&detailInfo.laterActivityList.length>0)||(detailInfo.beforeActivityList&&detailInfo.beforeActivityList.length>0)">
         <h4>所有活动</h4>
         <div v-if="detailInfo.laterActivityList&&detailInfo.laterActivityList.length>0">
@@ -74,7 +74,6 @@
   </div>
 </template>
 <script>
-import { shopInfo } from '@/common/commonData/testDevData'
 export default {
   props: {
     dataId: {
@@ -93,7 +92,7 @@ export default {
   },
   data () {
     return {
-      detailInfo: { ...shopInfo }
+      detailInfo: {}
     }
   },
   computed: {
@@ -101,20 +100,6 @@ export default {
       return (this.detailInfo.duringActivityList && this.detailInfo.duringActivityList.length <= 0) && (this.detailInfo.laterActivityList && this.detailInfo.laterActivityList.length <= 0) && (this.detailInfo.beforeActivityList && this.detailInfo.beforeActivityList.length <= 0)
     }
   },
-  // watch: {
-  //   dataId (val, oldval) {
-  //     if (this.dataId) {
-  //       this.getDetailInfo()
-  //     }
-  //   },
-  //   dataTimeRange: {
-  //     handler (val, oldval) {
-  //       // debugger
-  //       this.getDetailInfo()
-  //     },
-  //     deep: true
-  //   }
-  // },
   created () {
     if (this.dataId) {
       this.getDetailInfo()

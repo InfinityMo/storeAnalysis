@@ -78,7 +78,8 @@
             :dialogShow="actDialogShow"
             @dialogCancel="actDialogCancel"
             @dialogConfirm="actDialogConfirm">
-      <addActivity slot="content"
+      <addActivity v-if="actDialogShow"
+                   slot="content"
                    ref="actContent"
                    :addEditId="addEditId" />
     </Dialog>
@@ -87,16 +88,17 @@
             :isShowFooter="false"
             :dialogShow="manageDialogShow"
             @dialogCancel="manageDialogCancel">
-      <activityManage slot="content"
+      <activityManage v-if="manageDialogShow"
+                      slot="content"
                       activityType="2"
-                      v-if="manageDialogShow"
                       :dataId="addEditId" />
     </Dialog>
     <Drawer :drawerTitle="drawerTitle"
             drawerWidth="856px"
             :drawerShow="drawerShow"
             @drawerClosed="drawerClosed">
-      <linkDetails slot="content"
+      <linkDetails v-if="drawerShow"
+                   slot="content"
                    :addEditId="addEditId" />
     </Drawer>
   </div>

@@ -4,24 +4,29 @@
   background-color: #F8FCFD;
   min-width: 1366px;
   min-height: 625px;
+  background: url('~@/assets/img/system/login-back.png') no-repeat;
+  background-size: cover;
 }
 
 .login-content {
   height: 100%;
-  // padding-top: 50px;
 
   .left-pic {
     padding-top: 11px;
   }
 
   .login-back-wrap {
-    position: relative;
+
+    .login-bg {
+      width: 100vw;
+      height: 100vh;
+    }
   }
 
   .login-wrap {
     position: absolute;
-    left: calc(50% - 180px);
-    top: calc(50% - 231px);
+    left: calc(50% - 200px);
+    top: calc(50% - 252px);
 
     .title {
       display: flex;
@@ -32,22 +37,30 @@
   }
 
   .login-form {
-    padding: 30px;
+    padding: 40px 30px 70px 30px;
     background-color: #fff;
-    box-shadow: 0px 1px 2px -2px rgba(0, 67, 69, 0.24), 0px 3px 6px rgba(0, 67, 69, 0.18), 0px 5px 12px 4px rgba(0, 67, 69, 0.12);
+    box-shadow: 0px 1px 2px -2px rgba(0, 85, 85, 0.24), 0px 3px 6px rgba(0, 85, 85, 0.18), 0px 5px 12px 4px rgba(0, 85, 85, 0.12);
     border-radius: 10px;
 
     .title-img {
       display: block;
     }
 
+    .sub-title {
+      padding-top: 10px;
+      font-size: 12px;
+      line-height: 21px;
+      color: #777;
+      text-align: center;
+    }
+
     .login-title {
-      padding: 40px 0 30px 0;
+      padding: 55px 0 10px 0;
       text-align: center;
 
       h5 {
         font-weight: 500;
-        margin-bottom: 5px;
+        // margin-bottom: 5px;
         font-size: 18px;
         line-height: 26px;
         color: #333
@@ -66,7 +79,7 @@
       margin-bottom: 30px;
 
       /deep/ .el-input__inner {
-        width: 300px;
+        width: 340px;
         padding-left: 36px;
         border-radius: 44px;
       }
@@ -74,6 +87,7 @@
       .reset-login-user {
         /deep/ .el-input__inner:focus {
           padding-left: 58px;
+          border: 1px solid #00D4F3;
         }
 
         .tl {
@@ -95,8 +109,8 @@
       }
     }
 
-    .first-item {
-      margin-bottom: 20px;
+    .form-item-btn {
+      margin: 40px 0 10px 0;
     }
 
     .user-login-userName,
@@ -116,13 +130,17 @@
     }
 
     .login-btn {
-      width: 300px;
-      padding: 12px 15px;
+      width: 340px;
+      padding: 13px 15px;
+      font-size: 18px;
       border-radius: 44px;
+      word-spacing: 0.55em;
+      border: none;
+      background: linear-gradient(83.01deg, #00F2E4 4.2%, #00E9FE 100.63%), #2BB8BD;
     }
 
     .bottom-tip {
-      margin-top: 50px;
+      // margin-top: 50px;
       font-size: 12px;
       color: #AAA;
       line-height: 20px;
