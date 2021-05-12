@@ -64,7 +64,8 @@
             :dialogShow="dialogShow"
             @dialogCancel="dialogCancel"
             @dialogConfirm="dialogConfirm">
-      <addEdit slot="content"
+      <addEdit v-if="dialogShow"
+               slot="content"
                ref="addContent"
                :addEditId="addEditId" />
     </Dialog>
