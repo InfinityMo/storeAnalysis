@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Base64 } from 'js-base64'
 export default {
   data () {
@@ -80,6 +80,9 @@ export default {
       tlShow: false
     }
   },
+  computed: {
+    ...mapGetters(['menus'])
+  },
   methods: {
     ...mapActions([
       'getUserInfo'
@@ -93,7 +96,7 @@ export default {
         if (valid) {
           this.getUserInfo(loginData).then(res => {
             if (res) {
-              this.$router.push('/')
+              this.$router.replace(this.menus[0].path)
               this.$bus.$emit('isLogin')
             }
           })

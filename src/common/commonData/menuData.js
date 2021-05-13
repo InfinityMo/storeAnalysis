@@ -3,7 +3,7 @@ export default [
     id: '1',
     title: '基础信息配置',
     icon: 'icon-config-16',
-    path: '/base',
+    path: '/',
     children: [{
       path: '/base/shop',
       title: '店铺配置'
