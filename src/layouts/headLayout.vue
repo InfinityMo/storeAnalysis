@@ -153,8 +153,7 @@ export default {
   },
   computed: {
     userName () {
-      // return JSON.parse(localStorage.getItem('userData')).staffId || ''
-      return JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)).staffId || ''
+      return (JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)) ? JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)).staffId : '') || ''
     }
   },
   methods: {

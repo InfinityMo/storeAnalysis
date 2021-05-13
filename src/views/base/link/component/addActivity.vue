@@ -18,9 +18,10 @@
                       :prop="'dynamicData.' + index + '.activityId'"
                       :rules="{required: true, message: '请选择活动', trigger: 'change'}">
           <el-select popper-class="dialog-upper"
+                     @change="selectChange('',index)"
                      placeholder="请选择活动"
                      v-model="dynamicItem.activityId">
-            <el-option v-for="item in startedActivityOption"
+            <el-option v-for="item in dynamicItem.selectOption"
                        :key="item.value"
                        :label="item.label"
                        :value="item.value">
@@ -46,7 +47,7 @@
     </div>
     <div class="flex-item-center flex-justify-center add-wrap"
          @click="addHandle"
-         v-if="dynamicForm.dynamicData.length<5">
+         v-if="dynamicForm.dynamicData.length<startedActivityOption.length">
       <icon type="icon-add-green-14" />
       <span>添加新的活动</span>
     </div>
@@ -70,12 +71,14 @@ export default {
       dynamicForm: {
         dynamicData: [
           {
+            selectOption: [],
             itemId: this.$createUUID(),
             activityId: '',
             rules: ''
           }
         ]
       },
+      allSelectId: [], // 当前页面上所有的选项
       startedActivityOption: []
     }
   },
@@ -89,14 +92,25 @@ export default {
     getNotFinishActivity () {
       this._fetchSelectData('3', { key: '2', value: 'notend' }).then(res => {
         this.startedActivityOption = res
+        res.forEach(item => this.dynamicForm.dynamicData[0].selectOption.push(item))
       })
     },
-    addHandle () {
+    async addHandle () {
       this.dynamicForm.dynamicData.push({
+        selectOption: await this.addSetOption(),
         itemId: this.$createUUID(),
         activityId: '',
         rules: ''
       })
+    },
+    addSetOption () {
+      const option = []
+      this.startedActivityOption.forEach(item => {
+        if (!this.allSelectId.includes(item.value)) {
+          option.push(item)
+        }
+      })
+      return option
     },
     deleteItem (id) {
       if (this.dynamicForm.dynamicData.length < 2) {
@@ -105,7 +119,34 @@ export default {
       const targetIndex = this.dynamicForm.dynamicData.findIndex(i => i.itemId === id)
       if (targetIndex !== -1) {
         this.dynamicForm.dynamicData.splice(targetIndex, 1)
+        // 删除后改变select
+        this.selectChangeHandle('', true)
       }
+    },
+    async selectChangeHandle (index, isDelete) {
+      this.allSelectId = []
+      await this.dynamicForm.dynamicData.map(item => {
+        if (item.activityId) {
+          this.allSelectId.push(item.activityId)
+        }
+      })
+      await this.dynamicForm.dynamicData.forEach((item, currentIndex) => {
+        if (currentIndex !== index || isDelete) {
+          item.selectOption = this.selectSetOption(item.activityId)
+        }
+      })
+    },
+    selectChange (selectValue, index) {
+      this.selectChangeHandle(index)
+    },
+    selectSetOption (curId) {
+      const option = []
+      this.startedActivityOption.forEach(item => {
+        if (!this.allSelectId.includes(item.value) || item.value === curId) {
+          option.push(item)
+        }
+      })
+      return option
     },
     validForm () {
       return new Promise((resolve, reject) => {

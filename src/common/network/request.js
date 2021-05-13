@@ -118,7 +118,7 @@ instance.interceptors.response.use(response => {
     // router.push('./')
     setTimeout(() => {
       router.go(0)
-    }, 1500)
+    }, 1000)
   } else {
     return response.data
   }
