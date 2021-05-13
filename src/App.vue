@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-
+import store from '@/store'
 export default {
 
   data () {
@@ -32,9 +32,15 @@ export default {
     }
   },
   computed: {
+    userName () {
+      return (JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)) ? JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)).staffId : '') || ''
+    }
+  },
+  created () {
 
   },
   mounted () {
+    this.setWatermarker()
     window.addEventListener('hashchange', () => {
       const currentPath = window.location.hash.slice(1)
       if (this.$route.path !== currentPath) {
@@ -44,6 +50,17 @@ export default {
     }, false)
   },
   methods: {
+    setWatermarker () {
+      // 创建水印
+      this.$nextTick(() => {
+        this.$watermark.set(this.userName, 10)
+      })
+      this.$bus.$on('isLogin', () => {
+        this.$nextTick(() => {
+          this.$watermark.set(this.userName, 10)
+        })
+      })
+    }
   }
 }
 </script>

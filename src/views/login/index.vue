@@ -94,6 +94,7 @@ export default {
           this.getUserInfo(loginData).then(res => {
             if (res) {
               this.$router.push('/')
+              this.$bus.$emit('isLogin')
             }
           })
         } else {
