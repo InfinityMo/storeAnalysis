@@ -12,26 +12,26 @@ const routes = [
     component: () => import('@/views/login/index.vue')
   },
   {
-    path: '/',
+    path: '/base',
     name: 'base',
     meta: { title: '基础信息配置' },
     component: baseLayout,
     redirect: '/base/shop',
     children: [
       {
-        path: '/base/shop',
+        path: 'shop',
         name: 'baseShop',
         meta: { title: '店铺配置' },
         component: () => import('@/views/base/shop/index.vue')
       },
       {
-        path: '/base/link',
+        path: 'link',
         name: 'baseLink',
         meta: { title: '链接配置' },
         component: () => import('@/views/base/link/index.vue')
       },
       {
-        path: '/base/activity',
+        path: 'activity',
         name: 'baseActivity',
         meta: { title: '活动配置' },
         component: () => import('@/views/base/activity/index.vue')
@@ -43,7 +43,7 @@ const routes = [
     name: 'shop',
     meta: { title: '' },
     component: baseLayout,
-    redirect: '/shopInfo',
+    redirect: '/shop/shopInfo',
     children: [
       {
         path: 'shopInfo',
@@ -58,7 +58,7 @@ const routes = [
     name: 'rank',
     meta: { title: '特殊活动' },
     component: baseLayout,
-    redirect: '/rankEstimate',
+    redirect: '/rank/rankEstimate',
     children: [
       {
         path: 'rankEstimate',
@@ -73,6 +73,7 @@ const routes = [
     name: 'shopTab',
     meta: { title: '' },
     component: tabLayout,
+    redirect: '/shopTab/shopData',
     children: [
       {
         path: 'shopData',
@@ -86,6 +87,7 @@ const routes = [
     name: 'rankTab',
     meta: { title: '' },
     component: tabLayout,
+    redirect: '/rankTab/rankData',
     children: [
       {
         path: 'rankData',

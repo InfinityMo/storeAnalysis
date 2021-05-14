@@ -8,10 +8,15 @@ import store from '@/store/index'
 
 router.beforeEach((to, from, next) => {
   const whiteList = ['/401', '/403', '/404']
-
+  // debugger
+  console.log(to)
+  console.log(store.getters.roles)
+  // debugger
   if (to.path === '/login') {
     // 进入首页时将loading取消
     store.commit('SETSPINNING', false)
+    localStorage.removeItem(`${store.getters.getTrackId}userData`)
+    sessionStorage.removeItem(`${store.getters.getTrackId}userData`)
     next()
     return
   }
@@ -22,6 +27,10 @@ router.beforeEach((to, from, next) => {
   const userLoaclData = JSON.parse(localStorage.getItem(`${store.getters.getTrackId}userData`)) || {}
   const userSessionData = JSON.parse(sessionStorage.getItem(`${store.getters.getTrackId}userData`)) || {}
   if (Object.keys(userSessionData).length > 0 && Object.keys(userLoaclData).length > 0) {
+    if (to.path === '/') {
+      next(store.getters.menus[0].path)
+      return
+    }
     store.getters.roles.includes(to.name) ? next() : next('/401')
   } else {
     next('/login')

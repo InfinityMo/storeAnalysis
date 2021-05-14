@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-center forbidden-wrap">
+  <div class="flex-justify-center  forbidden-wrap">
     <div class="forbidden">
       <img src="@/assets/img/base/401.svg">
       <p>对不起，您无权限访问！请联系管理员！</p>
@@ -28,12 +28,12 @@ export default {
   height: 100vh;
   background-color: #fff;
   .forbidden {
-    padding-top: 80px;
+    padding-top: 100px;
     text-align: center;
     p {
-      padding-top: 10px;
+      padding-top: 20px;
       font-size: 18px;
-      font-weight: bold;
+      color: #333;
     }
   }
 }

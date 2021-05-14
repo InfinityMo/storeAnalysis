@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-center forbidden-wrap">
+  <div class="flex-center  forbidden-wrap">
     <div class="forbidden">
       <img src="@/assets/img/base/404.svg">
       <p>对不起，您访问的页面不存在！</p>
@@ -31,9 +31,10 @@ export default {
     padding-top: 80px;
     text-align: center;
     p {
-      padding-top: 10px;
+      padding-top: 20px;
       font-size: 18px;
-      font-weight: bold;
+      color: #333;
+      // font-weight: bold;
     }
   }
 }

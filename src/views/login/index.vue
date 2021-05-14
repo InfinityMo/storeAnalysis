@@ -83,6 +83,11 @@ export default {
   computed: {
     ...mapGetters(['menus'])
   },
+  mounted () {
+    this.$nextTick(() => {
+      this.$watermark.set('', 10)
+    })
+  },
   methods: {
     ...mapActions([
       'getUserInfo'

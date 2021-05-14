@@ -5,10 +5,10 @@ export const setRoles = (menu) => {
       roles.push(item.name)
       // 特殊处理的字段，权限系统打通后更换方案
       if (item.name === 'shopInfo') {
-        roles.push('shopData')
+        roles.push('shopTab', 'shopData')
       }
       if (item.name === 'rankEstimate') {
-        roles.push('rankData')
+        roles.push('rankTab', 'rankData')
       }
       // eslint-disable-next-line no-unused-expressions
       item.children ? setRoles(item.children) : null
