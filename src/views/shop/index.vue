@@ -102,7 +102,7 @@ export default {
     openNewtab (scoped) {
       const { row } = scoped
       const routeUrl = this.$router.resolve({
-        name: 'ShopData',
+        name: 'shopData',
         query: {
           shopId: Base64.encode(row.shopId)
         }

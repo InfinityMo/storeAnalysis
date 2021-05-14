@@ -62,7 +62,7 @@ import { Base64 } from 'js-base64'
 import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
-import { getYesterday } from '../../common/utils/timeCalc'
+import { getYesterday } from '@/common/utils/timeCalc'
 export default {
   mixins: [tableMixin],
   data () {
@@ -149,7 +149,7 @@ export default {
     openNewtab (scoped) {
       const { row } = scoped
       const routeUrl = this.$router.resolve({
-        name: 'RankData',
+        name: 'rankData',
         query: {
           shopId: Base64.encode(row.shopId),
           rank: Base64.encode(row.rank),

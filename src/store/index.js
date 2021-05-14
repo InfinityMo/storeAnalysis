@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { createUUID } from '@/common/utils/funcStore'
-// import menuData from '@/common/commonData/menuData.js'
+import { setRoles } from '@/common/utils/setRoles.js'
 import commonModule from './modules/common'
 import axios from '@/common/network/request'
 import { Message } from 'element-ui'
@@ -14,16 +14,16 @@ export default new Vuex.Store({
     breadCurmb: [],
     userData: {},
     trackId: '',
-    permissionsCode: '',
-    activityLevels: []
+    roles: [],
+    permissionsCode: ''
   },
   getters: {
     menus: (state) => {
       return state.slideMenu
     },
-    // activityLevels: state => state.activityLevels,
     getBreadCurmb: state => state.breadCurmb,
-    getTrackId: state => state.trackId
+    getTrackId: state => state.trackId,
+    roles: state => state.roles
     // getUserData (state) {
     //   const userData = state.userData || {}
     //   if (Object.keys(userData).length <= 0) {
@@ -41,7 +41,7 @@ export default new Vuex.Store({
       state[payloadObj.storeName] = payloadObj.payload
     },
     // 设置面包屑
-    setBreadCurmb (state, payload) {
+    SEtBREADCURMB (state, payload) {
       state.breadCurmb = payload
     },
     SAVEPERMISSIONSCODE (state, payload) {
@@ -77,6 +77,9 @@ export default new Vuex.Store({
               staffId: data.userName
             }))
             commit('SETBASICMUTATION', { payload: data.menuPermissions, storeName: 'slideMenu' })
+            setRoles(data.menuPermissions).then(roles => {
+              commit('SETBASICMUTATION', { payload: roles, storeName: 'roles' })
+            })
             commit('SAVEPERMISSIONSCODE', data.permissionsCode)
             resolve(true)
           } else if (res.errorCode === 1000) {
@@ -100,7 +103,7 @@ export default new Vuex.Store({
     createVuexAlong({
       name: 'system',
       local: {
-        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'activityLevels', 'spinning'],
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'spinning'],
         isFilter: true
       },
       session: {
@@ -109,7 +112,7 @@ export default new Vuex.Store({
         // trackId: '',
         // permissionsCode: '',
         // activityLevels: []
-        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'activityLevels']
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode']
       }
     })
   ]

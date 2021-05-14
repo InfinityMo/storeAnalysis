@@ -7,32 +7,32 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     meta: { title: '' },
     component: () => import('@/views/login/index.vue')
   },
   {
     path: '/',
-    name: 'Base',
+    name: 'base',
     meta: { title: '基础信息配置' },
     component: baseLayout,
     redirect: '/base/shop',
     children: [
       {
         path: '/base/shop',
-        name: 'BaseShop',
+        name: 'baseShop',
         meta: { title: '店铺配置' },
         component: () => import('@/views/base/shop/index.vue')
       },
       {
         path: '/base/link',
-        name: 'BaseLink',
+        name: 'baseLink',
         meta: { title: '链接配置' },
         component: () => import('@/views/base/link/index.vue')
       },
       {
         path: '/base/activity',
-        name: 'BaseActivity',
+        name: 'baseActivity',
         meta: { title: '活动配置' },
         component: () => import('@/views/base/activity/index.vue')
       }
@@ -40,14 +40,14 @@ const routes = [
   },
   {
     path: '/shop',
-    name: 'Shop',
+    name: 'shop',
     meta: { title: '' },
     component: baseLayout,
     redirect: '/shopInfo',
     children: [
       {
         path: 'shopInfo',
-        name: 'ShopInfo',
+        name: 'shopInfo',
         meta: { title: '店铺信息' },
         component: () => import('@/views/shop/index.vue')
       }
@@ -55,43 +55,43 @@ const routes = [
   },
   {
     path: '/rank',
-    name: 'Rank',
+    name: 'rank',
     meta: { title: '特殊活动' },
     component: baseLayout,
     redirect: '/rankEstimate',
     children: [
       {
         path: 'rankEstimate',
-        name: 'RankEstimate',
+        name: 'rankEstimate',
         meta: { title: '预订排行' },
-        component: () => import('@/views/rank/index.vue')
+        component: () => import('@/views/rank/rankEstimate/index.vue')
       }
     ]
   },
   {
     path: '/shopTab',
-    name: 'ShopTab',
+    name: 'shopTab',
     meta: { title: '' },
     component: tabLayout,
     children: [
       {
         path: 'shopData',
-        name: 'ShopData',
+        name: 'shopData',
         meta: { title: '店铺信息' },
         component: () => import('@/views/shop/component/data.vue')
       }
     ]
   }, {
     path: '/rankTab',
-    name: 'RankTab',
+    name: 'rankTab',
     meta: { title: '' },
     component: tabLayout,
     children: [
       {
         path: 'rankData',
-        name: 'RankData',
+        name: 'rankData',
         meta: { title: '预订排行' },
-        component: () => import('@/views/rank/component/data.vue')
+        component: () => import('@/views/rank/rankEstimate/component/data.vue')
       }
     ]
   }, {

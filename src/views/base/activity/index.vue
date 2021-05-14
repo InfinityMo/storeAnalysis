@@ -182,6 +182,7 @@ export default {
       this.$refs.addContent.validForm().then(res => {
         if (res) {
           this.getTableData()
+          this.getSelectData()
           this.dialogShow = false
         }
       })
