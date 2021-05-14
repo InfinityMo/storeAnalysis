@@ -58,14 +58,14 @@ export default {
           })
         }
       })
-      this.setBreadCurmb(breadArr)
+      this.SEtBREADCURMB(breadArr)
       return this.$route.path
     }
   },
   mounted () {
   },
   methods: {
-    ...mapMutations(['setBreadCurmb']),
+    ...mapMutations(['SEtBREADCURMB']),
     menuClick (path) {
       this.$router.push(path)
     }

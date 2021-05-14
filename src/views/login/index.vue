@@ -81,7 +81,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['menus'])
+    ...mapGetters(['menus', 'asyncRouters'])
+    // ...mapGetters('routerModule', ['asyncRouters'])
   },
   methods: {
     ...mapActions([
@@ -96,6 +97,12 @@ export default {
         if (valid) {
           this.getUserInfo(loginData).then(res => {
             if (res) {
+              // console.log(this.asyncRouters)
+              // this.$router.addRoutes(this.asyncRouters)
+              // console.log(this.$router)
+              this.asyncRouters.forEach(item => {
+                this.$router.options.routes.push(item)
+              })
               this.$router.replace(this.menus[0].path)
               this.$bus.$emit('isLogin')
             }

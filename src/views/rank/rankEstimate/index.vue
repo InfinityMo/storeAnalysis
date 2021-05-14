@@ -62,7 +62,7 @@ import { Base64 } from 'js-base64'
 import tableMixin from '@/mixins/dealTable'
 import { columnsData } from './columnsData.js'
 import { queryForm } from './searchForm'
-import { getYesterday } from '../../common/utils/timeCalc'
+import { getYesterday } from '@/common/utils/timeCalc'
 export default {
   mixins: [tableMixin],
   data () {

@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { createUUID } from '@/common/utils/funcStore'
+import { generatorDynamicRouter } from '@/router/asyncRouter'
 // import menuData from '@/common/commonData/menuData.js'
+// import { routes } from '@/router/baseRouter'
 import commonModule from './modules/common'
+// import routerModule from './modules/router'
 import axios from '@/common/network/request'
 import { Message } from 'element-ui'
 import createVuexAlong from 'vuex-along'
@@ -15,7 +18,7 @@ export default new Vuex.Store({
     userData: {},
     trackId: '',
     permissionsCode: '',
-    activityLevels: []
+    asyncRouters: []
   },
   getters: {
     menus: (state) => {
@@ -23,7 +26,8 @@ export default new Vuex.Store({
     },
     // activityLevels: state => state.activityLevels,
     getBreadCurmb: state => state.breadCurmb,
-    getTrackId: state => state.trackId
+    getTrackId: state => state.trackId,
+    asyncRouters: state => state.asyncRouters
     // getUserData (state) {
     //   const userData = state.userData || {}
     //   if (Object.keys(userData).length <= 0) {
@@ -41,8 +45,11 @@ export default new Vuex.Store({
       state[payloadObj.storeName] = payloadObj.payload
     },
     // 设置面包屑
-    setBreadCurmb (state, payload) {
+    SEtBREADCURMB (state, payload) {
       state.breadCurmb = payload
+    },
+    SETROUTER (state, routersData) {
+      state.asyncRouters = routersData
     },
     SAVEPERMISSIONSCODE (state, payload) {
       state.permissionsCode = payload
@@ -76,6 +83,9 @@ export default new Vuex.Store({
             localStorage.setItem(`${this.getters.getTrackId}userData`, JSON.stringify({
               staffId: data.userName
             }))
+            generatorDynamicRouter(data.menuPermissions).then(res => {
+              commit('SETROUTER', res)
+            })
             commit('SETBASICMUTATION', { payload: data.menuPermissions, storeName: 'slideMenu' })
             commit('SAVEPERMISSIONSCODE', data.permissionsCode)
             resolve(true)
@@ -95,12 +105,13 @@ export default new Vuex.Store({
   // 配置store模块
   modules: {
     commonModule: commonModule
+    // routerModule: routerModule
   },
   plugins: [
     createVuexAlong({
       name: 'system',
       local: {
-        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'activityLevels', 'spinning'],
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'spinning'],
         isFilter: true
       },
       session: {
@@ -109,7 +120,7 @@ export default new Vuex.Store({
         // trackId: '',
         // permissionsCode: '',
         // activityLevels: []
-        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'activityLevels']
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'asyncRouters']
       }
     })
   ]
