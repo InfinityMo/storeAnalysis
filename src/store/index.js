@@ -18,6 +18,8 @@ export default new Vuex.Store({
     userData: {},
     trackId: '',
     permissionsCode: '',
+    dynamicRouters: [],
+    // listRouter: [],
     asyncRouters: []
   },
   getters: {
@@ -27,6 +29,8 @@ export default new Vuex.Store({
     // activityLevels: state => state.activityLevels,
     getBreadCurmb: state => state.breadCurmb,
     getTrackId: state => state.trackId,
+    // listRouter: state => state.listRouter,
+    dynamicRouters: state => state.dynamicRouters,
     asyncRouters: state => state.asyncRouters
     // getUserData (state) {
     //   const userData = state.userData || {}
@@ -48,8 +52,23 @@ export default new Vuex.Store({
     SEtBREADCURMB (state, payload) {
       state.breadCurmb = payload
     },
-    SETROUTER (state, routersData) {
-      state.asyncRouters = routersData
+    SAVEROUTER (state, routersData) {
+      state.dynamicRouters = routersData
+    },
+    SETROUTER (state) {
+      return new Promise((resolve, reject) => {
+        generatorDynamicRouter(state.slideMenu).then(res => {
+          // debugger
+          state.dynamicRouters = []
+          state.dynamicRouters = [...res]
+          state.dynamicRouters.push({
+            path: '*',
+            name: 'None',
+            component: () => import('@/views/404/index.vue')
+          })
+          resolve(state.dynamicRouters)
+        })
+      })
     },
     SAVEPERMISSIONSCODE (state, payload) {
       state.permissionsCode = payload
@@ -83,9 +102,9 @@ export default new Vuex.Store({
             localStorage.setItem(`${this.getters.getTrackId}userData`, JSON.stringify({
               staffId: data.userName
             }))
-            generatorDynamicRouter(data.menuPermissions).then(res => {
-              commit('SETROUTER', res)
-            })
+            // generatorDynamicRouter(data.menuPermissions).then(res => {
+            //   commit('SAVEROUTER', res)
+            // })
             commit('SETBASICMUTATION', { payload: data.menuPermissions, storeName: 'slideMenu' })
             commit('SAVEPERMISSIONSCODE', data.permissionsCode)
             resolve(true)
@@ -95,6 +114,12 @@ export default new Vuex.Store({
             Message.error('当前账号无访问权限，请联系管理员')
           }
         })
+      })
+    },
+    setRouter ({ commit }) {
+      return new Promise((resolve, reject) => {
+        commit('SETROUTER')
+        resolve()
       })
     },
     // 重置vuex
@@ -111,7 +136,7 @@ export default new Vuex.Store({
     createVuexAlong({
       name: 'system',
       local: {
-        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'spinning'],
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'spinning', 'dynamicRouters'],
         isFilter: true
       },
       session: {
@@ -120,7 +145,7 @@ export default new Vuex.Store({
         // trackId: '',
         // permissionsCode: '',
         // activityLevels: []
-        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode', 'asyncRouters']
+        list: ['slideMenu', 'breadCurmb', 'trackId', 'permissionsCode']
       }
     })
   ]

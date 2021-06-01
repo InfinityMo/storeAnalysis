@@ -39,11 +39,11 @@ const routes = [
     path: '/401',
     name: 'forbidden',
     component: () => import('@/views/401/index.vue')
-  },
-  {
-    path: '*',
-    name: 'None',
-    component: () => import('@/views/404/index.vue')
   }
+  // {
+  //   path: '*',
+  //   name: 'None',
+  //   component: () => import('@/views/404/index.vue')
+  // }
 ]
 export default routes

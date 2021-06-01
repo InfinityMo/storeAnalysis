@@ -17,8 +17,11 @@ module.exports = {
     compress: true,
     proxy: {
       [process.env.VUE_APP_API]: {
-        target: 'http://172.165.251.4:8001',
-        // target: 'http://172.165.208.41:8000',
+        // target: 'http://172.165.251.4:8001',
+        // target: 'http://172.165.208.41:8001',
+        // target: 'http://172.30.65.200:80',
+        // target: 'http://101.132.67.181:80',
+        target: 'http://yunjin.thelian.com',
         // target: 'http://promotiondataback.thelian.cn',
         // target: 'http://172.165.206.5:8000',
         pathRewrite: {

@@ -101,7 +101,9 @@
 //   }
 // ]
 // eslint-disable-next-line no-unused-vars
-import baseLayout from '@/layouts/baseLayout'
+// import baseLayout from '@/layouts/baseLayout'
+// resolve => require(['@/components/' + c.component + ''], resolve)
+const baseLayout = () => import('@/layouts/baseLayout')
 // eslint-disable-next-line no-unused-vars
 const rootRouter = {
   // name: '',
@@ -201,6 +203,7 @@ const listChildren = (childrenMenu) => {
       name: item.name,
       meta: { title: item.title },
       component: () => import('@/views' + item.path + '/index.vue')
+      // component: resolve => require(['@/views' + item.path + '/index.vue'], resolve)
     }
   })
 }
@@ -210,5 +213,6 @@ const listChildren2 = (item) => {
     name: item.name,
     meta: { title: item.title },
     component: () => import('@/views/' + item.path.split('/')[1] + '/index.vue')
+    // component: resolve => require(['@/views' + item.path.split('/')[1] + '/index.vue'], resolve)
   }]
 }
