@@ -1,3 +1,8 @@
+/*
+Author：Infinity
+email：cmohan@foxmail.com
+Time：2021-06-11
+*/
 import { Table, TableColumn, Pagination } from 'element-ui'
 import Operate from '@/common/components/standardTable/operate'
 const tableAttrs = Object.keys(Object.assign({}, Table.props, TableColumn.props))
