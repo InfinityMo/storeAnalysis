@@ -54,10 +54,14 @@
                 :padding="[0,5,0,0]" />配置店铺
         </el-button>
       </div>
-      <standard-table :dataSource="tableData"
+      <!-- <standard-table :dataSource="tableData"
                       :columns="columns"
                       :pagination="PAGING"
-                      @tableChange="tableChange" />
+                      @tableChange="tableChange" /> -->
+      <test-table :data="tableData"
+                  :columns="columns2"
+                  :pagination="PAGING"
+                  @tableChange="tableChange" />
     </div>
     <Dialog :dialogTitle="dialogTitle"
             dialogWidth="574px"
@@ -102,7 +106,7 @@
 <script>
 import tableMixin from '@/mixins/dealTable'
 import { stateOptions } from '@/common/commonData/baseData'
-import { columnsData } from './columnsData.js'
+import { columnsData, columnsData2 } from './columnsData.js'
 import { queryForm } from './searchForm'
 import addEdit from './component/addEdit'
 import addActivity from './component/addActivity'
@@ -115,6 +119,7 @@ export default {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
+      columns2: columnsData2(this.$createElement, this),
       tableData: [],
       stateOptions: stateOptions, // 监控状态下拉数据
       dialogTitle: '', // 弹窗的名称

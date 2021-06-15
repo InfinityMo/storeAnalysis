@@ -37,3 +37,44 @@ export const columnsData = (h, $this) => [{
     )
   }
 }]
+
+export const columnsData2 = (h, $this) => [{
+  prop: 'activityName',
+  label: '活动名称',
+  align: 'left',
+  width: 440
+}, {
+  prop: 'levelName',
+  label: '活动等级',
+  align: 'left'
+},
+{
+  prop: 'start',
+  label: '开始时间',
+  align: 'left'
+},
+{
+  prop: 'end',
+  label: '结束时间',
+  align: 'left'
+},
+{
+  prop: 'operate',
+  label: '操作',
+  width: 170,
+  align: 'left',
+  scopedSlots: (h, scoped) => {
+    return (
+      <div class="operate-btn-group">
+        <el-button style="padding-left:0" type="text" onClick={() => $this.editMoadl(scoped)}>编辑</el-button>
+        <el-divider direction="vertical"></el-divider>
+        <el-button type="text" onClick={() => $this.openDraw(scoped)}>查看</el-button>
+        <el-divider direction="vertical"></el-divider>
+        <el-popconfirm onConfirm={() => $this.deleteHandle(scoped)} placement="top" title="确定删除吗？">
+          <el-button type="text" slot="reference" >删除</el-button>
+        </el-popconfirm>
+      </div>
+    )
+  }
+
+}]

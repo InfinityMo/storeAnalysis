@@ -97,7 +97,7 @@
 </template>
 <script>
 import tableMixin from '@/mixins/dealTable'
-import { columnsData } from './columnsData.js'
+import { columnsData, columnsData2 } from './columnsData.js'
 import { queryForm } from './searchForm'
 import addEdit from './component/addEdit'
 import activityDetails from './component/activityDetails'
@@ -109,6 +109,7 @@ export default {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
       columns: columnsData(this.$createElement, this),
+      columns2: columnsData2(this.$createElement, this),
       tableData: [],
       activityLevels: [], // 活动等级下拉数据
       dialogTitle: '', // 弹窗的名称
