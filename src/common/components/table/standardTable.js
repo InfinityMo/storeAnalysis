@@ -64,6 +64,7 @@ export default {
   },
   render () {
     const attrs = this.$attrs
+    console.log(!attrs.hidePagination)
     const props = this.dealProp(this)
     return (<div>
       <el-table {...{ attrs: props.tablefilterProps }} class="standard-table">
@@ -78,12 +79,14 @@ export default {
             : <el-table-column {...{ attrs: item }} ></el-table-column>
         })}
       </el-table>
-      <el-pagination
-        class="pagination"
-        {...{ attrs: props.pagingfilterProps }}
-        onsize-change={this.handleSizeChange}
-        oncurrent-change={this.handleCurrentChange}>
-      </el-pagination>
+      {attrs.hidePagination
+        ? <el-pagination
+          class="pagination"
+          {...{ attrs: props.pagingfilterProps }}
+          onsize-change={this.handleSizeChange}
+          oncurrent-change={this.handleCurrentChange}>
+        </el-pagination> : null
+      }
     </div>)
   }
 }
