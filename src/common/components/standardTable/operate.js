@@ -3,8 +3,7 @@ export default {
   functional: true,
   props: {
     row: {
-      type: Object,
-      required: true
+      type: Object
     },
     render: {
       type: Function,
@@ -17,12 +16,11 @@ export default {
   },
   render: (h, ctx) => {
     const params = {
-      row: ctx.props.row,
-      index: ctx.props.index
+      ...ctx.props
     }
-    if (ctx.props.column) {
-      params.column = ctx.props.column
-    }
+    // if (ctx.props.column) {
+    //   params.column = ctx.props.column
+    // }
     return ctx.props.render(h, params)
   }
 }

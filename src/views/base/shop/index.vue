@@ -143,6 +143,7 @@ export default {
   },
   methods: {
     selectionChange (selection) {
+      debugger
     },
     getSelectData () {
       Promise.all([

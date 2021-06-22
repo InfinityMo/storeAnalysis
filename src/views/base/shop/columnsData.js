@@ -70,6 +70,15 @@ export const columnsData2 = (h, $this) => [{
 }, {
   prop: 'title',
   label: '店铺名称',
+  headerSlots: (h, scoped) => {
+    return (<div>店铺名称<el-tooltip class="item"
+      effect="dark"
+      content="在选定日期之前（包含）所采集有效数据的最晚时间"
+      placement="top">
+      <icon type="icon-pop-14" padding={[0, 0, 0, 5]} />
+    </el-tooltip>
+    </div>)
+  },
   align: 'left',
   width: 310
 }, {
@@ -77,7 +86,7 @@ export const columnsData2 = (h, $this) => [{
   label: '店铺链接',
   align: 'left',
   width: 300,
-  render: (h, scoped) => {
+  columnSlots: (h, scoped) => {
     return (<div class="link-open" onClick={() => /^https|http/.test(scoped.row.shopLink) ? window.open(scoped.row.shopLink) : window.open(`https://${scoped.row.shopLink}`)}>
       {scoped.row.shopLink}
     </div>)
@@ -87,7 +96,7 @@ export const columnsData2 = (h, $this) => [{
   prop: 'promotionCount',
   label: '当前活动数',
   align: 'left',
-  render: (h, scoped) => {
+  columnSlots: (h, scoped) => {
     return (<div>
       {scoped.row.promotionCount}
     </div>)
@@ -97,7 +106,7 @@ export const columnsData2 = (h, $this) => [{
   prop: 'isValid',
   label: '监控状态',
   align: 'left',
-  scopedSlots: (h, scoped) => {
+  columnSlots: (h, scoped) => {
     return (
       <div class="flex-justify-start">
         <el-switch
@@ -117,7 +126,7 @@ export const columnsData2 = (h, $this) => [{
   label: '操作',
   width: 280,
   align: 'left',
-  scopedSlots: (h, scoped) => {
+  columnSlots: (h, scoped) => {
     return (
       <div class="operate-btn-group">
         <el-button style="padding-left:0" type="text" onClick={() => $this.configActivity(scoped)}>配置活动</el-button>

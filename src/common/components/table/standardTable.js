@@ -1,9 +1,9 @@
 /*
 Author：Infinity
-email：cmohan@foxmail.com
+Email：cmohan@foxmail.com
 Time：2021-06-11
-remark：此组件为element-table的jsx封装。所有表格的属性、方法及回调参数均与element官方文档保持一致，
-区别在于自定义中加了column slot的二次jsx封装以及分页器的集成。
+Remark：此组件为element-table的jsx封装。所有表格的属性、方法及回调参数均与element官方文档保持一致，
+区别在于自定义加了header、column的slot组件进行二次jsx封装，以及分页器的集成。
 */
 import { Table, TableColumn, Pagination } from 'element-ui'
 import Operate from '@/common/components/standardTable/operate'
@@ -75,6 +75,19 @@ export default {
         }
       })
       return tableListeners
+    },
+    setSlots (item) {
+      const columnSlots = item.columnSlots ? {
+        default: ({ row }) => {
+          return item.columnSlots ? <Operate render={item.columnSlots} row={row} column={item}></Operate> : null
+        }
+      } : {}
+      const headerSlots = item.headerSlots ? {
+        header: ({ row }) => {
+          return item.headerSlots ? <Operate render={item.headerSlots} row={row} column={item}></Operate> : null
+        }
+      } : {}
+      return Object.assign(columnSlots, headerSlots)
     }
   },
   render () {
@@ -86,13 +99,8 @@ export default {
         {...{ attrs: props.tablefilterProps }}
         {...{ on: { ...listeners } }}>
         {attrs.columns.map((item, index) => {
-          const scopedSlots = {
-            default: ({ row }) => {
-              return item.scopedSlots ? <Operate render={item.scopedSlots} row={row} column={item}></Operate> : null
-            }
-          }
-          return item.scopedSlots
-            ? <el-table-column {...{ attrs: item }} scopedSlots={scopedSlots}></el-table-column>
+          return item.columnSlots || item.headerSlots
+            ? <el-table-column {...{ attrs: item }} scopedSlots={this.setSlots(item)}></el-table-column>
             : <el-table-column {...{ attrs: item }} ></el-table-column>
         })}
       </el-table>
