@@ -58,10 +58,11 @@
                       :columns="columns"
                       :pagination="PAGING"
                       @tableChange="tableChange" /> -->
-      <test-table :data="tableData"
-                  :columns="columns2"
-                  :pagination="PAGING"
-                  @tableChange="tableChange" />
+      <Table :data="tableData"
+             :columns="columns2"
+             :pagination="PAGING"
+             @selection-change="selectionChange"
+             @tableChange="tableChange" />
     </div>
     <Dialog :dialogTitle="dialogTitle"
             dialogWidth="574px"
@@ -141,6 +142,8 @@ export default {
     // this.getTableData() // 获取列表数据
   },
   methods: {
+    selectionChange (selection) {
+    },
     getSelectData () {
       Promise.all([
         this._fetchSelectData('1')

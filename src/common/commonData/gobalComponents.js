@@ -3,12 +3,12 @@ import standardTable from '@/common/components/standardTable/standardTable'
 import icon from '@/common/components/icon'
 import dialog from '@/components/dialog'
 import drawer from '@/components/drawer'
-import testTable from '@/common/components/table/standardTable'
+import Table from '@/common/components/table/standardTable'
 // import drawerEdit from '@/components/drawerMode/drawerEdit'
 // import drawerView from '@/components/drawerMode/drawerView'
 
 Vue.component('standard-table', standardTable)
-Vue.component('test-table', testTable)
+Vue.component('Table', Table)
 Vue.component('Dialog', dialog)
 Vue.component('icon', icon)
 Vue.component('Drawer', drawer)

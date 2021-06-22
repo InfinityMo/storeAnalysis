@@ -64,6 +64,10 @@ export const columnsData = (h, $this) => [{
 }]
 
 export const columnsData2 = (h, $this) => [{
+  type: 'selection',
+  align: 'center',
+  width: 45
+}, {
   prop: 'title',
   label: '店铺名称',
   align: 'left',

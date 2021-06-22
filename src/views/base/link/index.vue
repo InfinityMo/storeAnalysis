@@ -68,10 +68,14 @@
       <div class="flex-between-center table-info">
         <h4>链接列表</h4>
       </div>
-      <standard-table :dataSource="tableData"
+      <!-- <standard-table :dataSource="tableData"
                       :columns="columns"
                       :pagination="PAGING"
-                      @tableChange="tableChange" />
+                      @tableChange="tableChange" /> -->
+      <Table :data="tableData"
+             :columns="columns2"
+             :pagination="PAGING"
+             @tableChange="tableChange" />
     </div>
     <Dialog dialogTitle="配置活动"
             dialogWidth="728px"
@@ -106,7 +110,7 @@
 <script>
 import tableMixin from '@/mixins/dealTable'
 import { linkStateOptions } from '@/common/commonData/baseData'
-import { columnsData } from './columnsData.js'
+import { columnsData2 } from './columnsData.js'
 import { queryForm } from './searchForm'
 import addActivity from './component/addActivity'
 import activityManage from '../activity/component/activityManage'
@@ -118,7 +122,7 @@ export default {
   data () {
     return {
       queryFrom: JSON.parse(JSON.stringify(queryForm)),
-      columns: columnsData(this.$createElement, this),
+      columns2: columnsData2(this.$createElement, this),
       tableData: [],
       stateOptions: linkStateOptions, // 监控状态下拉数据
       dialogTitle: '', // 弹窗的名称

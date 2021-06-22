@@ -2,6 +2,8 @@
 Author：Infinity
 email：cmohan@foxmail.com
 Time：2021-06-11
+remark：此组件为element-table的jsx封装。所有表格的属性、方法及回调参数均与element官方文档保持一致，
+区别在于自定义中加了column slot的二次jsx封装以及分页器的集成。
 */
 import { Table, TableColumn, Pagination } from 'element-ui'
 import Operate from '@/common/components/standardTable/operate'
@@ -60,14 +62,29 @@ export default {
         }
       })
       return { tablefilterProps, pagingfilterProps }
+    },
+    dealListeners ($this) {
+      const tableListeners = {}
+      const { $listeners } = $this
+      Object.keys($listeners).forEach(item => {
+        if (item !== 'tableChange') {
+          // 此处用箭头函数指向当前vue实例
+          tableListeners[item] = (...args) => {
+            this.$emit(item, ...args)
+          }
+        }
+      })
+      return tableListeners
     }
   },
   render () {
     const attrs = this.$attrs
-    console.log(!attrs.hidePagination)
     const props = this.dealProp(this)
+    const listeners = this.dealListeners(this)
     return (<div>
-      <el-table {...{ attrs: props.tablefilterProps }} class="standard-table">
+      <el-table class="standard-table"
+        {...{ attrs: props.tablefilterProps }}
+        {...{ on: { ...listeners } }}>
         {attrs.columns.map((item, index) => {
           const scopedSlots = {
             default: ({ row }) => {
@@ -79,13 +96,13 @@ export default {
             : <el-table-column {...{ attrs: item }} ></el-table-column>
         })}
       </el-table>
-      {attrs.hidePagination
-        ? <el-pagination
+      {attrs.hidePagination || attrs.hidePagination === ''
+        ? null : <el-pagination
           class="pagination"
           {...{ attrs: props.pagingfilterProps }}
           onsize-change={this.handleSizeChange}
           oncurrent-change={this.handleCurrentChange}>
-        </el-pagination> : null
+        </el-pagination>
       }
     </div>)
   }

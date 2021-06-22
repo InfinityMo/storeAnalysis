@@ -9,7 +9,7 @@ import router from '@/router'
 import { Message } from 'element-ui'
 import { customMessage } from '@/common/utils/resetMessage'
 const { VUE_APP_API } = process.env
-// 创建axios实例，设置超时时间为5S
+// 创建axios实例，设置超时时间为20S，根据项目自定义
 const instance = axios.create({
   baseURL: VUE_APP_API,
   timeout: 20000
